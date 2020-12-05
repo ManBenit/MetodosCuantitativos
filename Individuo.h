@@ -31,6 +31,6 @@ class Individuo{
         Fenotipo fenotipo();
         Genotipo genotipo();
         void mutar(int pos);
-        void cruzarCon(Individuo individuo);
+        Individuo cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY);
         string imprimir();
 }

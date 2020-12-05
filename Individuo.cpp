@@ -15,27 +15,34 @@ Diciembre 2020.
 
 #include "Individuo.h"
 Individuo::Indiviudo(Genotipo gen, Fenotipo fen){   //Constructor
-    
+    genotipo=gen;
+    fenotipo=fen;
+    id+=1;
 }
 
 int Individuo::id(){
-    
+    return id;
 }
 
 Fenotipo Individuo::fenotipo(){
-    
+    return fenotipo;
 }
 
 Genotipo Individuo::genotipo(){
-    
+    return genotipo;
 }
 
 void Individuo::mutar(int pos){
-
+    if(genotipo.cromosomas[pos]==0)
+        genotipo.cromosomas[pos]=1;
+    else
+        genotipo.cromosomas[pos]=0;
 }
 
-void Individuo::cruzarCon(Individuo individuo){
-
+//Cruce de dos individuos, bitsX es la logitud del vector de this y bitsY la de indoviduo
+Individuo Individuo::cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY){
+    
+    Individuo nuevo;
 }
 
 string Individuo::imprimir(){

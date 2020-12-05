@@ -1,7 +1,3 @@
-#include <iostream>
-#include <string>
-using neamespace std;
-
 class Genotipo{
 
     public:
