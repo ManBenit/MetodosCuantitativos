@@ -39,9 +39,11 @@ void Individuo::mutar(int pos){
         genotipo.cromosomas[pos]=0;
 }
 
-//Cruce de dos individuos, bitsX es la logitud del vector de this y bitsY la de indoviduo
+//Cruce de dos individuos, bitsX es la logitud de indX y bitsY la de indY
 Individuo Individuo::cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY){
-    
+    int nuevoGeno[bitsX+bitsY];
+    for(int i=0; i<bitsX; i++)
+        nuevoGeno[i]
     Individuo nuevo;
 }
 
