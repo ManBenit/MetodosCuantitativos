@@ -20,12 +20,12 @@ Restriccion::Restriccion(string expresion){
 
 //getter del límite inferior
 int Restriccion::limInf(){
-
+    return limInf;
 }
 
 // getter del límite superior
 int Restriccion::limSup(){
-
+    return limSup;
 }
 
 bool Restriccion::evaluar(int individuo){
@@ -33,7 +33,31 @@ bool Restriccion::evaluar(int individuo){
 }
 
 void Restriccion::defAtributos(string expresion){
+    vector<string> exprPartes;
+    int numPart=0;
+
+    //Verificar si es <=, =, >= para la futura evaluación
+    if( separar(exprPartes, "<=").length() == 2 ){
+        condicion=0;
+        exprPartes= separar(exprPartes, "<=");
+        ladoIzq= exprPartes[0];
+        ladoDer= stoi(exprPartes[1]);
+    }
+    else if( separar(exprPartes, "=").length() == 2 ){
+        condicion=1;
+        exprPartes= separar(exprPartes, "=");
+        ladoIzq= exprPartes[0];
+        ladoDer= stoi(exprPartes[1]);
+    }
+    else if( separar(exprPartes, ">=").length() == 2 ){
+        condicion=2;
+        exprPartes= separar(exprPartes, ">=");
+        ladoIzq= exprPartes[0];
+        ladoDer= stoi(exprPartes[1]);
+    }
     
+    
+
 }
 
 vector<string> Restriccion::separar(string str, string sep){

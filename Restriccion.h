@@ -22,15 +22,15 @@ class Restriccion{
     private:
         string ladoIzq;
         int condicion;
-        int limInf;
-        int limSup;
+        int limY0;
+        int limX0;
         double ladoDer;
 
 
     public:
         Restriccion(string expresion);
-        int limInf(); //getter del límite inferior
-        int limSup(); // getter del límite superior
+        int valSiY0(); //getter del valor de x cuando y=0
+        int valSiX0(); // getter del yalor de y cuando x=0
         bool evaluar(int individuo);
 
     private:
