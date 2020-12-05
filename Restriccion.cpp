@@ -36,7 +36,7 @@ void Restriccion::defAtributos(string expresion){
     
 }
 
-vector<string> Restriccion::separar(string cadena){
+vector<string> Restriccion::separar(string str, string sep){
     vector<string> elementos;
     string auxSubWord="", assignedWord="";
     int inicio=0, fin=0+sep.length(), posOfAssignment=0;
