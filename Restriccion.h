@@ -32,5 +32,8 @@ class Restriccion{
         int limInf(); //getter del límite inferior
         int limSup(); // getter del límite superior
         bool evaluar(int individuo);
-        void defAtributos();
+
+    private:
+        void defAtributos(string expresion);
+        vector<string> separar(string cadena);
 }
