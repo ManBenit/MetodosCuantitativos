@@ -87,7 +87,12 @@ int Individuo::binDec(int* arreglo, int lon){
 
 
 string Individuo::imprimir(){
-    cout << "Vn\tVector\tValor x\tValor y" << endl;
+    strGenotipo="";
+    int longitudCromosomas= sizeof(genotipo.cromosomas)/sizeof(*genotipo.cromosomas);
+    for(int i=0; i<longitudCromosomas; i++)
+        strGenotipo+=to_string(genotipo.cromosomas[i]);
+
+    return "V" + to_string(id) + "\t" + strGenotipo + "\t" + to_string(fenotipo.x) + "\t" + to_string(fenotipo.y);
 }
 
 
