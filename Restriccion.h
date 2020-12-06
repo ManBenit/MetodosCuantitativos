@@ -16,6 +16,7 @@ Diciembre 2020.
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
 class Restriccion{

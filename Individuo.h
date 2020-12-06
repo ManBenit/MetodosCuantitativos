@@ -15,6 +15,7 @@ Diciembre 2020.
 
 #include <iostream>
 #include <string>
+#include <cmath>
 #include "Genotipo.h"
 #include "Fenotipo.h"
 using neamespace std;
