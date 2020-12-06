@@ -38,6 +38,7 @@ class Restriccion{
     private:
         void defAtributos(string expresion);
         vector<string> separar(string str, string sep);
-        double evaluar(double x, double y);
+        double evaluar(string expr, double x, double y);
         void minusculas(string* cadena);
+        void defDominio();
 };

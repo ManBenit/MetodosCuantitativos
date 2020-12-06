@@ -32,17 +32,17 @@ bool Restriccion::evaluar(Individuo ind){
     bool ret=false;
     switch(condicion){
         case 0: //<=
-            if( evaluar(ind.fenotipo().x, ind.fenotipo().y) <= ladoDer )
+            if( evaluar(ladoIzq, ind.fenotipo().x, ind.fenotipo().y) <= ladoDer )
                 ret=true;
             break;
 
         case 1: //=
-            if( evaluar(ind.fenotipo().x, ind.fenotipo().y) == ladoDer )
+            if( evaluar(ladoIzq, ind.fenotipo().x, ind.fenotipo().y) == ladoDer )
                 ret=true;
             break;
 
         case 2: //>=
-            if( evaluar(ind.fenotipo().x, ind.fenotipo().y) >= ladoDer )
+            if( evaluar(ladoIzq, ind.fenotipo().x, ind.fenotipo().y) >= ladoDer )
                 ret=true;
             break;
     }
@@ -72,39 +72,39 @@ void Restriccion::defAtributos(string expresion){
     ladoIzq= exprPartes[0];
     minusculas(&ladoIzq);
     ladoDer= stoi(exprPartes[1]);
-    
+    defDominio();
 }
 
 //Evalúa la expresión que se obtuvo al definir atributos con los parámetros x,y
-double Restriccion::evaluar(double x, double y){
-    ladoIzq+="|"; //Separador para elimirar el excedente
+double Restriccion::evaluar(string expr, double x, double y){
+    expr+="|"; //Separador para elimirar el excedente
     //sustituir correctamente valores
     stringstream sb;
     vector<string> separacion;
-    separacion= separar(ladoIzq, "x");
+    separacion= separar(expr, "x");
     for(int i=0; i<separacion.size(); i++)
         sb << separacion[i] << x;
-    ladoIzq= sb.str();
+    expr= sb.str();
     
     sb.str("");
-    separacion= separar(ladoIzq, "y");
+    separacion= separar(expr, "y");
     for(int i=0; i<separacion.size(); i++)
         sb << separacion[i] << y;
-    ladoIzq= sb.str();
+    expr= sb.str();
     sb.str("");
 
     //Quitar caracteres extras
     int indSep=0;
-    for(int i=0; i<ladoIzq.length(); i++)
-        if(ladoIzq[i]=='|'){
+    for(int i=0; i<expr.length(); i++)
+        if(expr[i]=='|'){
             indSep=i;
             break;
         }
-    ladoIzq.replace(ladoIzq.begin()+indSep, ladoIzq.end(), "");
+    expr.replace(expr.begin()+indSep, expr.end(), "");
 
     
-    cout << ladoIzq << endl;
-    Evaluador eva(ladoIzq);
+    cout << expr << endl;
+    Evaluador eva(expr);
 
     return eva.getResultado();
 }
@@ -151,5 +151,46 @@ void Restriccion::minusculas(string* cadena){
     for(int i=0; i<(*cadena).length(); i++)
         if( (int)(*cadena)[i]>=65 && (int)(*cadena)[i]<=90 )
            (*cadena)[i]= (char)( (int)(*cadena)[i]+32 );
+}
+
+void Restriccion::defDominio(){
+    //Entendiendo que en la expresión del lado izquierdo hay solo una vez x y y
+    int indice=0;
+    string coefInv="";
+    string coef="";
+    double coeficiente=1;
+    int xoy=0;
+    char xy[]={'x', 'y'};
+    //Calcular x si y=0
+    //Obtener coeficiente de X
+    ///encontrar x
+    while(xoy<2){
+        coefInv="";
+        coef="";
+        for(int i=0; i<ladoIzq.length(); i++)
+            if(ladoIzq[i]==xy[xoy]){
+                indice=i;
+                break;
+            }
+        indice-=2; //Para que tome los números, no la letra ni el símbolo
+        //Sacar su coeficiente, pero saldrá invertido
+        while( (int)ladoIzq[indice]>=48 && (int)ladoIzq[indice]<=57 ){//Mientras haya números (coeficiente)
+            coefInv+=ladoIzq[indice];
+            indice-=1;
+        } 
+        //Regresar el coeficiente a su forma original
+        indice=0;
+        for(int i=coefInv.length()-1; i>=0; i--){
+            coef+=coefInv[i];
+            indice+=1;
+        }
+        coeficiente= stod(coef);
+        if(xoy==0)
+            siY0= ladoDer/evaluar(ladoIzq, 1, 0);
+        else
+            siX0= ladoDer/evaluar(ladoIzq, 0, 1);
+
+        xoy+=1;
+    }
 }
 

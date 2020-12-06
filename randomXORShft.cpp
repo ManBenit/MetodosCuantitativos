@@ -50,10 +50,10 @@ int randInt(int rndm)
   
   return randNumber;
 }
-int main()
+/*int main()
 {
   srand ((signed)time(NULL));
 
   printf("%d %f\n", randInt(rand()),randFloat(rand()));
   printf("%d %f", randInt(rand()),randFloat(rand()));
-}
+}*/
