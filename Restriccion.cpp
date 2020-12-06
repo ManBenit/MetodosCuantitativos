@@ -57,6 +57,11 @@ void Restriccion::defAtributos(string expresion){
 
 }
 
+//Evalúa la expresión que se obtuvo al definir atributos con los parámetros x,y
+double Restriccion::evaluar(double x, double y){
+    
+}
+
 vector<string> Restriccion::separar(string str, string sep){
     vector<string> elementos;
     string auxSubWord="", assignedWord="";

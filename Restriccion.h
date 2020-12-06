@@ -36,4 +36,5 @@ class Restriccion{
     private:
         void defAtributos(string expresion);
         vector<string> separar(string str, string sep);
+        double evaluar(double x, double y);
 };
