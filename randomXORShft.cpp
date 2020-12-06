@@ -1,13 +1,11 @@
-#include <cstdint>
-#include <cstring>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <string.h>
 #include <iostream>
 #include <time.h>
-using namespace std;
 
+#include <cmath> 
+using namespace std;
 uint32_t xorshift32(uint32_t state[])
 {
   /* Algorithm "xor" from p. 4 of Marsaglia, "Xorshift RNGs" */
@@ -29,19 +27,33 @@ uint64_t xorshift64(uint64_t state[])
   return x;
 }
 
+float randFloat(int rndm)
+{
+  uint32_t state[1] = {rndm};  
+  int intNumber = xorshift32(state)%10000000;
+  float floatNumber = intNumber/10000000.0f;
+
+  return floatNumber;
+}
+
+int randInt(int rndm)
+{
+  uint32_t state[1] = {rndm};  
+  int randNumber ;
+  int intNumber = xorshift32(state)%10;
+  float floatNumber = intNumber/10.0f;
+
+  if(floatNumber<0.5)
+    randNumber = (int)floor(floatNumber);
+  else
+    randNumber = (int)ceil(floatNumber);
+  
+  return randNumber;
+}
 int main()
 {
-    srand ((signed)time(NULL));
-    uint32_t state[1] = {rand()};  // "seed" (can be anthing but 0)
-    for (int i = 0; i < 5; i++)
-    {
-        printf("%u\n", xorshift32(state));
-    }
-    /*
-    uint64_t state64[1] = { rand() };  // "seed" (can be anthing but 0)
+  srand ((signed)time(NULL));
 
-    for (int i = 0; i < 5; i++)
-    {
-        printf("%llu\n", xorshift64(state64));
-    }*/
+  printf("%d %f\n", randInt(rand()),randFloat(rand()));
+  printf("%d %f", randInt(rand()),randFloat(rand()));
 }
