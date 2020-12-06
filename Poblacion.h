@@ -8,5 +8,5 @@ class Poblacion{
     public:
         vector<Individuo> individuos;
         void agregarIndividuo(Individuo ind);
-}
+};
 

@@ -43,4 +43,4 @@ class Ambiente{
         int calcAj(vector<int> limsInfs);
         int calcBj(vector<int> limsSups);
         int generarAleatorio();
-}
+};

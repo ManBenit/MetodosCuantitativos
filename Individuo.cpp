@@ -43,7 +43,9 @@ void Individuo::mutar(int pos){
 Individuo Individuo::cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY){
     int nuevoGeno[bitsX+bitsY];
     for(int i=0; i<bitsX; i++)
-        nuevoGeno[i]
+        nuevoGeno[i]=indX.genotipo.cromosomas[i];
+    for(int i=bitsX; i<bitsX+bitsY; i++)
+        nuevoGeno[i]=indY.genotipo.cromosomas[i];
     Individuo nuevo;
 }
 

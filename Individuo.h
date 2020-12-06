@@ -33,4 +33,4 @@ class Individuo{
         void mutar(int pos);
         Individuo cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY);
         string imprimir();
-}
+};

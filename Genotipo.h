@@ -4,5 +4,5 @@ class Genotipo{
         int[] cromosomas;
 
         Genotipo(int longitud); //Constructor 
-}
+};
 
