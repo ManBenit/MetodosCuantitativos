@@ -28,15 +28,33 @@ int Restriccion::valSiX0(){
     return siX0;
 }
 
-bool Restriccion::evaluar(int individuo){
+bool Restriccion::evaluar(Individuo ind){
+    bool ret=false;
+    switch(condicion){
+        case 0: //<=
+            if( evaluar(ind.fenotipo().x, ind.fenotipo().y) <= ladoDer )
+                ret=true;
+            break;
 
+        case 1: //=
+            if( evaluar(ind.fenotipo().x, ind.fenotipo().y) == ladoDer )
+                ret=true;
+            break;
+
+        case 2: //>=
+            if( evaluar(ind.fenotipo().x, ind.fenotipo().y) >= ladoDer )
+                ret=true;
+            break;
+    }
+    return ret;
 }
 
 void Restriccion::defAtributos(string expresion){
     vector<string> exprPartes;
     int numPart=0;
 
-    //Verificar si es <=, =, >= para la futura evaluación
+
+    //Verificar si es <=, =, >= para la futura evaluación; asignar condición
     if( separar(expresion, " <= ").size() == 2 ){
         condicion=0;
         exprPartes= separar(expresion, " <= ");
@@ -50,16 +68,45 @@ void Restriccion::defAtributos(string expresion){
         exprPartes= separar(expresion, " >= ");
     }
 
+    //Asignar ambos lados
     ladoIzq= exprPartes[0];
-    ladoDer= atoi(exprPartes[1].c_str());
+    minusculas(&ladoIzq);
+    ladoDer= stoi(exprPartes[1]);
     
-    
-
 }
 
 //Evalúa la expresión que se obtuvo al definir atributos con los parámetros x,y
 double Restriccion::evaluar(double x, double y){
+    ladoIzq+="|"; //Separador para elimirar el excedente
+    //sustituir correctamente valores
+    stringstream sb;
+    vector<string> separacion;
+    separacion= separar(ladoIzq, "x");
+    for(int i=0; i<separacion.size(); i++)
+        sb << separacion[i] << x;
+    ladoIzq= sb.str();
     
+    sb.str("");
+    separacion= separar(ladoIzq, "y");
+    for(int i=0; i<separacion.size(); i++)
+        sb << separacion[i] << y;
+    ladoIzq= sb.str();
+    sb.str("");
+
+    //Quitar caracteres extras
+    int indSep=0;
+    for(int i=0; i<ladoIzq.length(); i++)
+        if(ladoIzq[i]=='|'){
+            indSep=i;
+            break;
+        }
+    ladoIzq.replace(ladoIzq.begin()+indSep, ladoIzq.end(), "");
+
+    
+    cout << ladoIzq << endl;
+    Evaluador eva(ladoIzq);
+
+    return eva.getResultado();
 }
 
 vector<string> Restriccion::separar(string str, string sep){
@@ -99,3 +146,10 @@ vector<string> Restriccion::separar(string str, string sep){
     
     return elementos;
 }
+
+void Restriccion::minusculas(string* cadena){
+    for(int i=0; i<(*cadena).length(); i++)
+        if( (int)(*cadena)[i]>=65 && (int)(*cadena)[i]<=90 )
+           (*cadena)[i]= (char)( (int)(*cadena)[i]+32 );
+}
+

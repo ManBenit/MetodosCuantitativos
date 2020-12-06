@@ -13,10 +13,11 @@ VERSIÓN: 1.0
 Diciembre 2020.
 */
 
+#include "Evaluador.h"
 #include <iostream>
 #include <vector>
 #include <string>
-#include <cstdlib>
+#include <sstream>
 using namespace std;
 
 class Restriccion{
@@ -32,10 +33,11 @@ class Restriccion{
         Restriccion(string expresion);
         int valSiY0(); //getter del valor de x cuando y=0
         int valSiX0(); // getter del yalor de y cuando x=0
-        bool evaluar(int individuo);
+        bool evaluar(Individuo ind);
 
     private:
         void defAtributos(string expresion);
         vector<string> separar(string str, string sep);
         double evaluar(double x, double y);
+        void minusculas(string* cadena);
 };
