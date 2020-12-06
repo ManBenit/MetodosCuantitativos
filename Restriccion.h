@@ -22,8 +22,8 @@ class Restriccion{
     private:
         string ladoIzq;
         int condicion;
-        int limY0;
-        int limX0;
+        int siY0;
+        int siX0;
         double ladoDer;
 
 

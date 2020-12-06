@@ -18,14 +18,14 @@ Restriccion::Restriccion(string expresion){
     defAtributos(expresion);
 }
 
-//getter del límite inferior
-int Restriccion::limInf(){
-    return limInf;
+//getter del valor de la ecuación si y=0
+int Restriccion::valSiY0(){
+    return siY0;
 }
 
-// getter del límite superior
-int Restriccion::limSup(){
-    return limSup;
+//getter del valor de la ecuación si x=0
+int Restriccion::valSiX0(){
+    return siX0;
 }
 
 bool Restriccion::evaluar(int individuo){
@@ -37,24 +37,21 @@ void Restriccion::defAtributos(string expresion){
     int numPart=0;
 
     //Verificar si es <=, =, >= para la futura evaluación
-    if( separar(exprPartes, "<=").length() == 2 ){
+    if( separar(expresion, " <= ").size() == 2 ){
         condicion=0;
-        exprPartes= separar(exprPartes, "<=");
-        ladoIzq= exprPartes[0];
-        ladoDer= stoi(exprPartes[1]);
+        exprPartes= separar(expresion, " <= ");
     }
-    else if( separar(exprPartes, "=").length() == 2 ){
+    else if( separar(expresion, " = ").size() == 2 ){
         condicion=1;
-        exprPartes= separar(exprPartes, "=");
-        ladoIzq= exprPartes[0];
-        ladoDer= stoi(exprPartes[1]);
+        exprPartes= separar(expresion, " = ");
     }
-    else if( separar(exprPartes, ">=").length() == 2 ){
+    else if( separar(expresion, " >= ").size() == 2 ){
         condicion=2;
-        exprPartes= separar(exprPartes, ">=");
-        ladoIzq= exprPartes[0];
-        ladoDer= stoi(exprPartes[1]);
+        exprPartes= separar(expresion, " >= ");
     }
+
+    ladoIzq= exprPartes[0];
+    ladoDer= atoi(exprPartes[1].c_str());
     
     
 

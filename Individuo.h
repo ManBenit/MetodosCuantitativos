@@ -24,7 +24,7 @@ class Individuo{
         static int id;
         Genotipo genotipo;
         Fenotipo fenotipo;
-        int binDec(int* arreglo, int lon);
+
 
     public:
         Indiviudo(Genotipo gen, Fenotipo fen); // Constructor 
@@ -34,4 +34,7 @@ class Individuo{
         void mutar(int pos);
         Individuo cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY);
         string imprimir();
+
+    private:
+        int binDec(int* arreglo, int lon);
 };
