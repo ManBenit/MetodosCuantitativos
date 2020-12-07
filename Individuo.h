@@ -29,9 +29,10 @@ class Individuo{
 
     public:
         Individuo(Genotipo gen, Fenotipo fen); // Constructor 
-        int id();
-        Fenotipo fenotipo();
-        Genotipo genotipo();
+        Individuo();
+        int obtId();
+        Fenotipo obtFenotipo();
+        Genotipo obtGenotipo();
         void mutar(int pos);
         Individuo cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY);
         string imprimir();

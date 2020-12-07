@@ -14,21 +14,21 @@ Diciembre 2020.
 */
 
 #include "Individuo.h"
-Individuo::Indiviudo(Genotipo gen, Fenotipo fen){   //Constructor
+Individuo::Individuo(Genotipo gen, Fenotipo fen){   //Constructor
     genotipo=gen;
     fenotipo=fen;
     id+=1;
 }
 
-int Individuo::id(){
+int Individuo::obtId(){
     return id;
 }
 
-Fenotipo Individuo::fenotipo(){
+Fenotipo Individuo::obtFenotipo(){
     return fenotipo;
 }
 
-Genotipo Individuo::genotipo(){
+Genotipo Individuo::obtGenotipo(){
     return genotipo;
 }
 
@@ -62,8 +62,8 @@ Individuo Individuo::cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY
     //Dar a luz al nuevo individuo :v
     Genotipo nuevoGen(nuevoGeno);
     Fenotipo nuevoFen(
-        binDec( cromoX, sizeof(cromoX)/sizeof(*cromoX) ),
-        binDec( cromoY, sizeof(cromoY)/sizeof(*cromoY) )
+        (double)binDec( cromoX, sizeof(cromoX)/sizeof(*cromoX) ),
+        (double)binDec( cromoY, sizeof(cromoY)/sizeof(*cromoY) )
     );
 
     Individuo nuevo(nuevoGen, nuevoFen);
@@ -87,7 +87,7 @@ int Individuo::binDec(int* arreglo, int lon){
 
 
 string Individuo::imprimir(){
-    strGenotipo="";
+    string strGenotipo="";
     int longitudCromosomas= sizeof(genotipo.cromosomas)/sizeof(*genotipo.cromosomas);
     for(int i=0; i<longitudCromosomas; i++)
         strGenotipo+=to_string(genotipo.cromosomas[i]);

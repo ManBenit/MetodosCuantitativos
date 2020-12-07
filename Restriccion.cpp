@@ -32,17 +32,17 @@ bool Restriccion::evaluar(Individuo ind){
     bool ret=false;
     switch(condicion){
         case 0: //<=
-            if( evaluar(ladoIzq, ind.fenotipo().x, ind.fenotipo().y) <= ladoDer )
+            if( evaluar(ladoIzq, ind.obtFenotipo().x, ind.obtFenotipo().y) <= ladoDer )
                 ret=true;
             break;
 
         case 1: //=
-            if( evaluar(ladoIzq, ind.fenotipo().x, ind.fenotipo().y) == ladoDer )
+            if( evaluar(ladoIzq, ind.obtFenotipo().x, ind.obtFenotipo().y) == ladoDer )
                 ret=true;
             break;
 
         case 2: //>=
-            if( evaluar(ladoIzq, ind.fenotipo().x, ind.fenotipo().y) >= ladoDer )
+            if( evaluar(ladoIzq, ind.obtFenotipo().x, ind.obtFenotipo().y) >= ladoDer )
                 ret=true;
             break;
     }

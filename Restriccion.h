@@ -14,6 +14,7 @@ Diciembre 2020.
 */
 
 #include "Evaluador.h"
+#include "Individuo.h"
 #include <iostream>
 #include <vector>
 #include <string>
