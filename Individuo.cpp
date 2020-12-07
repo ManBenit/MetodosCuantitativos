@@ -20,6 +20,8 @@ Individuo::Individuo(Genotipo gen, Fenotipo fen){   //Constructor
     id+=1;
 }
 
+Individuo::Individuo(){}
+
 int Individuo::obtId(){
     return id;
 }

@@ -22,7 +22,7 @@ using namespace std;
 
 class Individuo{
     private:
-        static int id;
+        int id;
         Genotipo genotipo;
         Fenotipo fenotipo;
 

@@ -1,8 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include <cstdlib>
+#include <cstdint>
 #include <iostream>
-#include <time.h>
+#include <ctime>
 #include <cmath> 
 
 using namespace std;

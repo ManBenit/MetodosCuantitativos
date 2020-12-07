@@ -1,3 +1,4 @@
+#include "RandomXORShft.h"
 #include <iostream>
 using namespace std;
 class Genotipo{
