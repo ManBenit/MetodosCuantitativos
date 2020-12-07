@@ -18,7 +18,7 @@ Diciembre 2020.
 #include <cmath>
 #include "Genotipo.h"
 #include "Fenotipo.h"
-using neamespace std;
+using namespace std;
 
 class Individuo{
     private:
@@ -28,7 +28,7 @@ class Individuo{
 
 
     public:
-        Indiviudo(Genotipo gen, Fenotipo fen); // Constructor 
+        Individuo(Genotipo gen, Fenotipo fen); // Constructor 
         int id();
         Fenotipo fenotipo();
         Genotipo genotipo();

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Individuo.h"
-using neamespace std;
+using namespace std;
 
 class Poblacion{
 

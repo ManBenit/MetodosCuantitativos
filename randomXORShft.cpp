@@ -1,14 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <iostream>
-#include <time.h>
+#include "RandomXORShft.h"
 
-#include <cmath> 
 using namespace std;
-uint32_t xorshift32(uint32_t state[])
+
+RandomXORShft::RandomXORShft(int rndm)
 {
-  /* Algorithm "xor" from p. 4 of Marsaglia, "Xorshift RNGs" */
+  this -> rndm = rndm;
+  randInt();
+  randFloat();
+}
+
+uint32_t RandomXORShft::xorshift32(uint32_t state[])
+{
   uint32_t x = state[0];
   x ^= x << 13;
   x ^= x >> 17;
@@ -17,28 +19,19 @@ uint32_t xorshift32(uint32_t state[])
   return x;
 }
 
-uint64_t xorshift64(uint64_t state[])
+float RandomXORShft::randFloat()
 {
-  uint64_t x = state[0];
-  x ^= x << 13;
-  x ^= x >> 7;
-  x ^= x << 17;
-  state[0] = x;
-  return x;
-}
-
-float randFloat(int rndm)
-{
-  uint32_t state[1] = {rndm};  
+  uint32_t state[1] = {this->rndm};  
   int intNumber = xorshift32(state)%10000000;
+
   float floatNumber = intNumber/10000000.0f;
 
   return floatNumber;
 }
 
-int randInt(int rndm)
+int RandomXORShft::randInt()
 {
-  uint32_t state[1] = {rndm};  
+  uint32_t state[1] = {this->rndm};  
   int randNumber ;
   int intNumber = xorshift32(state)%10;
   float floatNumber = intNumber/10.0f;
@@ -50,10 +43,3 @@ int randInt(int rndm)
   
   return randNumber;
 }
-/*int main()
-{
-  srand ((signed)time(NULL));
-
-  printf("%d %f\n", randInt(rand()),randFloat(rand()));
-  printf("%d %f", randInt(rand()),randFloat(rand()));
-}*/
