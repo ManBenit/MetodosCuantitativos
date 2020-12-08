@@ -23,7 +23,21 @@ void Ambiente::imprimirMejorIndividuo(){
     
 
 bool Ambiente::verificar(){
-    
+    bool valido=false;
+    double ajbjx= calcAjBj('x');
+    double ajbjy= calcAjBj('y');
+    int mjx= mj(ajbjx[0], ajbjx[1]);
+    int mjy= mj(ajbjy[0], ajbjy[1]);
+
+    if( 
+        pow(2, mjx-1)<=(ajbjx[1]-cjbjx[0])*pow(10, (double)precision) && 
+        pow(10, (double)precision)<=pow(2, mjx)-1 &&
+        pow(2, mjy-1)<=(ajbjy[1]-cjbjy[0])*pow(10, (double)precision) && 
+        pow(10, (double)precision)<=pow(2, mjy)-1
+        )
+        valido=true;
+
+    return valido;
 }
 
 //Límite inferior de x o de y
