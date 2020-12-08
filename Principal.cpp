@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "Ambiente.h"
 using namespace std;
 
@@ -6,9 +7,9 @@ using namespace std;
 class Principal{
     //ATRIBUTOS/////////////////////
     public:
-        string Z; 
-        bool max, noNeg, cero, reem; 
-        int precision, pob, ind;
+        string Z= "0.2*x+0.5*y"; 
+        bool max=true, noNeg=true, cero=true, reem=false; 
+        int precision=0, pob=3, ind=5;
     ////////////////////////////////
 
     //MÉTODOS///////////////////////
@@ -86,22 +87,48 @@ int main(){
     ambiente.agregarRestriccion("0.1*x+0.6*y <= 2000");
     ambiente.agregarRestriccion("1*x+1*y <= 6000");
     ambiente.agregarRestriccion("1*x+0*y <= 4000");
+    if(principal.noNeg){
+        ambiente.agregarRestriccion("1*x+0*y >= 0");
+        ambiente.agregarRestriccion("0*x+1*y >= 0");
+    }
+
 
     int* aux= ambiente.calcBitsXY();
     cout << "Bits de X: " << aux[0] << endl;
     cout << "Bits de Y: " << aux[1] << endl;
     cout << "Se cumple? " << ambiente.verificar() << endl;
     
-    for(int j=0; j<principal.ind; j++){
-        Individuo indi(aux[0], aux[1]);
-        cout << indi.imprimir();
-        for(int k=0; k<ambiente.obtRestriccciones().size(); k++){
-            cout << "\t" << ambiente.obtRestriccciones()[i].evaluar(indi);
-        }
-        cout << endl;
-    }
+    bool cumple=false;
     
+    /*for(int j=0; j<principal.ind; j++){
+        Individuo indi(aux[0], aux[1]);
 
+        cout << indi.imprimir();
+        for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
+            cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(indi);
+        cout << endl;
+    }*/
+
+    int contadorInd=0;
+    while(true){ //Mientras no se cumplan las restricciones,
+        Individuo indi(aux[0], aux[1]); //genera otro,
+        for(int k=0; k<ambiente.obtRestriccciones().size(); k++){ //debe cumplir todas las restricciones,
+            cumple= ambiente.obtRestriccciones()[k].evaluar(indi);
+            if(!cumple) //con una que no cumpla,
+                break; //generamos otro.
+        }
+
+        if(cumple){
+            cout << indi.imprimir();
+            for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
+                cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(indi);
+            cout << endl;
+            contadorInd+=1;
+        }
+
+        if(contadorInd==principal.ind)
+            break;
+    }
 
     return 0;
 }
