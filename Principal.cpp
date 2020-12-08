@@ -67,9 +67,9 @@ int main(){
     );*/
     Ambiente ambiente("0.2*x+0.5*y", true, true, true, 0, 3, 5, false);
     }
-     /*ambiente.agregarRestriccion("0.1*x+0.6*y <= 2000");
+     ambiente.agregarRestriccion("0.1*x+0.6*y <= 2000");
     ambiente.agregarRestriccion("1*x+1*y <= 6000");
-    ambiente.agregarRestriccion("1*x+0*y <= 4000");*/
+    ambiente.agregarRestriccion("1*x+0*y <= 4000");
 
     int* aux= ambiente.calcBitsXY();
     cout << "Se cumple? " << ambiente.verificar() << endl;
