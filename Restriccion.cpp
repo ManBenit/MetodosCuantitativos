@@ -103,7 +103,7 @@ double Restriccion::evaluar(string expr, double x, double y){
     expr.replace(expr.begin()+indSep, expr.end(), "");
 
     
-    cout << expr << endl;
+    //cout << expr << endl;
     Evaluador eva(expr);
 
     return eva.getResultado();

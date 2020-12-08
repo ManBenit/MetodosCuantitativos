@@ -37,7 +37,7 @@ class Ambiente{
         void agregarRestriccion(string expresion); //Expresión completa, ejemplo: a+b<=4000
         void imprimirMejorIndividuo();
     
-    private:
+    public: //private
         bool verificar();
         int* calcBitsXY(); //cálculo de mjx y mjy
         double* calcAjBj(char variable);
