@@ -147,7 +147,7 @@ int main(){
     /*double z1;
     double z2=0;
     int pos[poblacion.size()];*/
-    for(int j=0; j<poblacion.size(); j++){
+    /*for(int j=0; j<poblacion.size(); j++){
         for(int n=0; n<poblacion[j].size(); n++){
             cout << poblacion[j][n].imprimir();
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++){
@@ -158,7 +158,7 @@ int main(){
             cout << endl;
         }
         cout << endl;
-    }
+    }*/
 
 
     double z1;
