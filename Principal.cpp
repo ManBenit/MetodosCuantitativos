@@ -1,5 +1,3 @@
-#include <iostream>
-#include <ctime>
 #include "Ambiente.h"
 using namespace std;
 
@@ -54,8 +52,11 @@ class Principal{
 int main(){
     Ambiente ambiente("0.2*x+0.5*y", true, true, true, 0, 3, 5, false);
     Principal principal;
+    vector<vector<Individuo>> poblacion;
+    unsigned t0, t1; //Medición de tiempo de ejecución
     string restric;
     int nrest, i=0;
+    int contadorInd=0, contadorPob=0;
     //principal.desplegarEncabezado();
     //principal.menu();
     cout << endl;
@@ -109,26 +110,58 @@ int main(){
         cout << endl;
     }*/
 
-    int contadorInd=0;
-    while(true){ //Mientras no se cumplan las restricciones,
-        Individuo indi(aux[0], aux[1]); //genera otro,
-        for(int k=0; k<ambiente.obtRestriccciones().size(); k++){ //debe cumplir todas las restricciones,
-            cumple= ambiente.obtRestriccciones()[k].evaluar(indi);
-            if(!cumple) //con una que no cumpla,
-                break; //generamos otro.
+    t0=clock();
+    //GENERAR POBLACIONES
+    while(poblacion.size()<principal.pob){
+        vector<Individuo> indis;
+
+        //GENERAR INDIVIDUOS
+        while(true){ //Mientras no se cumplan las restricciones,
+            Individuo indi(aux[0], aux[1]); //genera otro,
+            for(int k=0; k<ambiente.obtRestriccciones().size(); k++){ //debe cumplir todas las restricciones,
+                cumple= ambiente.obtRestriccciones()[k].evaluar(indi);
+                if(!cumple) //con una que no cumpla,
+                    break; //generamos otro.
+            }
+
+            if(cumple){
+                /*cout << indi.imprimir();
+                for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
+                    cout << "\t1";
+                cout << endl;*/
+                indis.push_back(indi);
+                contadorInd+=1;
+            }
+
+            if(contadorInd==principal.ind)
+                break;
         }
 
-        if(cumple){
-            cout << indi.imprimir();
-            for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
-                cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(indi);
-            cout << endl;
-            contadorInd+=1;
-        }
-
-        if(contadorInd==principal.ind)
-            break;
+        contadorInd=0;
+        poblacion.push_back(indis);
+        indis.clear();
     }
+
+
+    //cout << poblacion.size() << endl ;
+
+    for(int j=0; j<poblacion.size(); j++){
+        for(int n=0; n<poblacion[j].size(); n++){
+            cout << poblacion[j][n].imprimir();
+            for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
+                cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(poblacion[j][n]);
+                //cout << "\t1";
+            cout << endl;
+        }
+        cout << endl;
+    }
+
+
+
+    t1 = clock();
+    
+    double tiempo = (double(t1-t0)/CLOCKS_PER_SEC);
+    cout << "Tiempo de procesamiento: " << tiempo << "s" << endl;
 
     return 0;
 }
