@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Ambiente.h"
 using namespace std;
 
 int main(){
