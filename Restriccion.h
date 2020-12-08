@@ -25,15 +25,15 @@ class Restriccion{
     private:
         string ladoIzq;
         int condicion;
-        int siY0;
-        int siX0;
+        double siY0;
+        double siX0;
         double ladoDer;
 
 
     public:
         Restriccion(string expresion);
-        int valSiY0(); //getter del valor de x cuando y=0
-        int valSiX0(); // getter del yalor de y cuando x=0
+        double valSiY0(); //getter del valor de x cuando y=0
+        double valSiX0(); // getter del yalor de y cuando x=0
         bool evaluar(Individuo ind);
 
     private:

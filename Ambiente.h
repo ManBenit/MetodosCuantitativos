@@ -17,6 +17,7 @@ Diciembre 2020.
 #include <vector>
 #include <string>
 #include "Restriccion.h"
+#include "Poblacion.h"
 using namespace std;
 
 class Ambiente{
@@ -39,8 +40,10 @@ class Ambiente{
     
     private:
         bool verificar();
-        vector<int> calcBitsXY(); //cálculo de mjx y mjy
-        int calcAj(vector<int> limsInfs);
-        int calcBj(vector<int> limsSups);
-        int generarAleatorio();
+        int* calcBitsXY(); //cálculo de mjx y mjy
+        double* calcAjBj(char variable);
+        int mj(double aj, double bj);
+        double generarAleatorio();
+        double calcMin(vector<double> lista);
+        double calcMax(vector<double> lista);
 };

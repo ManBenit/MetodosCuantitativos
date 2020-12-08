@@ -16,15 +16,16 @@ Diciembre 2020.
 #include "Restriccion.h"
 Restriccion::Restriccion(string expresion){
     defAtributos(expresion);
+    defDominio();
 }
 
 //getter del valor de la ecuación si y=0
-int Restriccion::valSiY0(){
+double Restriccion::valSiY0(){
     return siY0;
 }
 
 //getter del valor de la ecuación si x=0
-int Restriccion::valSiX0(){
+double Restriccion::valSiX0(){
     return siX0;
 }
 
@@ -72,7 +73,6 @@ void Restriccion::defAtributos(string expresion){
     ladoIzq= exprPartes[0];
     minusculas(&ladoIzq);
     ladoDer= stoi(exprPartes[1]);
-    defDominio();
 }
 
 //Evalúa la expresión que se obtuvo al definir atributos con los parámetros x,y
