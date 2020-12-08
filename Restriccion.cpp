@@ -185,10 +185,14 @@ void Restriccion::defDominio(){
             indice+=1;
         }
         coeficiente= stod(coef);
-        if(xoy==0)
+        if(xoy==0){
             siY0= ladoDer/evaluar(ladoIzq, 1, 0);
-        else
+            if(siY0==INFINITY) siY0=0;
+        }
+        else{
             siX0= ladoDer/evaluar(ladoIzq, 0, 1);
+            if(siX0==INFINITY) siX0=0;
+        }
 
         xoy+=1;
     }
