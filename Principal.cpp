@@ -144,18 +144,44 @@ int main(){
 
 
     //cout << poblacion.size() << endl ;
-
+    /*double z1;
+    double z2=0;
+    int pos[poblacion.size()];*/
     for(int j=0; j<poblacion.size(); j++){
         for(int n=0; n<poblacion[j].size(); n++){
             cout << poblacion[j][n].imprimir();
-            for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
+            for(int k=0; k<ambiente.obtRestriccciones().size(); k++){
                 cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(poblacion[j][n]);
+                
+            }
                 //cout << "\t1";
             cout << endl;
         }
         cout << endl;
     }
 
+
+    double z1;
+    double z2=0;
+    int pos[poblacion.size()];
+    for(int j=0; j<poblacion.size(); j++){
+        for(int n=0; n<poblacion[j].size(); n++){
+            //cout << poblacion[j][n].imprimir();
+            for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
+            {
+                z1=ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y);
+                if(z1>z2)
+                {
+                    z2=z1;
+                    pos[k]=n;
+                    cout<<"El mejor individuo, en posicion \t"<<pos[k];
+                    cout<<endl;                    
+                }
+            }
+        }          
+    }
+    
+    
 
 
     t1 = clock();

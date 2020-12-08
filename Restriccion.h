@@ -36,7 +36,7 @@ class Restriccion{
         double valSiX0(); // getter del yalor de y cuando x=0
         bool evaluar(Individuo ind);
 
-    private: //private
+    public: //private
         void defAtributos(string expresion);
         vector<string> separar(string str, string sep);
         double evaluar(string expr, double x, double y);

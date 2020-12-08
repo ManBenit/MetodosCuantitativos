@@ -20,6 +20,10 @@ void Ambiente::agregarRestriccion(string expresion){
 void Ambiente::imprimirMejorIndividuo(){
     //Igual y no se usa, aún no sé
 }
+
+string Ambiente::getZ(){
+    return Z;
+}
     
 
 bool Ambiente::verificar(){
