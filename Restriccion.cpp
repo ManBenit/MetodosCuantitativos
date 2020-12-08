@@ -72,7 +72,7 @@ void Restriccion::defAtributos(string expresion){
     //Asignar ambos lados
     ladoIzq= exprPartes[0];
     minusculas(&ladoIzq);
-    ladoDer= stoi(exprPartes[1]);
+    ladoDer= stod(exprPartes[1]);
 }
 
 //Evalúa la expresión que se obtuvo al definir atributos con los parámetros x,y
