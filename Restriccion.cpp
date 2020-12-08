@@ -174,7 +174,7 @@ void Restriccion::defDominio(){
             }
         indice-=2; //Para que tome los números, no la letra ni el símbolo
         //Sacar su coeficiente, pero saldrá invertido
-        while( (int)ladoIzq[indice]>=48 && (int)ladoIzq[indice]<=57 ){//Mientras haya números (coeficiente)
+        while( ((int)ladoIzq[indice]>=48 && (int)ladoIzq[indice]<=57) || ladoIzq[indice]=='.' ){//Mientras haya números (coeficiente)
             coefInv+=ladoIzq[indice];
             indice-=1;
         } 
