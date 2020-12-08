@@ -1,13 +1,14 @@
 #include "RandomXORShft.h"
 #include <iostream>
+#include <vector>
 using namespace std;
 class Genotipo{
 
     public:
-        int* cromosomas;
+        vector<int> cromosomas;
 
         Genotipo(int longitud); //Constructor 
-        Genotipo(int* cromo); //Constructor 
+        Genotipo(vector<int> cromo); //Constructor 
         Genotipo();
 };
 

@@ -69,7 +69,7 @@ int main(){
         principal.reem
     );*/
 
-    cout << "Cuantas restricciones debe cumplir? ";
+    /*cout << "Cuantas restricciones debe cumplir? ";
     cin >> nrest;
     getline(cin, restric);
     while(true){
@@ -80,17 +80,26 @@ int main(){
 
         i+=1;
         if(i==nrest)
-            break;        
-    }
+           break;        
+    }*/
 
-    /*ambiente.agregarRestriccion("0.1*x+0.6*y <= 2000");
+    ambiente.agregarRestriccion("0.1*x+0.6*y <= 2000");
     ambiente.agregarRestriccion("1*x+1*y <= 6000");
-    ambiente.agregarRestriccion("1*x+0*y <= 4000");*/
+    ambiente.agregarRestriccion("1*x+0*y <= 4000");
 
     int* aux= ambiente.calcBitsXY();
-    cout << "Se cumple? " << ambiente.verificar() << endl;
     cout << "Bits de X: " << aux[0] << endl;
     cout << "Bits de Y: " << aux[1] << endl;
+    cout << "Se cumple? " << ambiente.verificar() << endl;
+    
+    for(int j=0; j<principal.ind; j++){
+        Individuo indi(aux[0], aux[1]);
+        cout << indi.imprimir();
+        for(int k=0; k<ambiente.obtRestriccciones().size(); k++){
+            cout << "\t" << ambiente.obtRestriccciones()[i].evaluar(indi);
+        }
+        cout << endl;
+    }
     
 
 

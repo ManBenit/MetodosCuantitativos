@@ -14,7 +14,31 @@ Diciembre 2020.
 */
 
 #include "Individuo.h"
-Individuo::Individuo(Genotipo gen, Fenotipo fen){   //Constructor
+Individuo::Individuo(int bitsX, int bitsY){   //Constructor
+    Genotipo gen(bitsX+bitsY);
+    int cromoX[bitsX];
+    int cromoY[bitsY];
+    int auxIndiceY=0;
+
+    for(int i=0; i<bitsX; i++)
+        cromoX[i]= gen.cromosomas[i];
+
+    for(int i=bitsX; i<bitsX+bitsY; i++){
+        cromoY[auxIndiceY]= gen.cromosomas[i];
+        auxIndiceY+=1;
+    }
+
+    Fenotipo fen(
+        (double)binDec( cromoX, sizeof(cromoX)/sizeof(*cromoX) ),
+        (double)binDec( cromoY, sizeof(cromoY)/sizeof(*cromoY) )
+    );
+
+    genotipo=gen;
+    fenotipo=fen;
+    id+=1;
+}
+
+Individuo::Individuo(Genotipo gen, Fenotipo fen){
     genotipo=gen;
     fenotipo=fen;
     id+=1;
@@ -43,19 +67,19 @@ void Individuo::mutar(int pos){
 
 //Cruce de dos individuos, bitsX es la logitud de indX y bitsY la de indY
 Individuo Individuo::cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY){
-    int nuevoGeno[bitsX+bitsY];
+    vector<int> nuevoGeno;
     int cromoX[bitsX];
     int cromoY[bitsY];
     int auxIndiceY=0;
 
     //No aleatrorio, son cromosomas de los padres
     for(int i=0; i<bitsX; i++){
-        nuevoGeno[i]= indX.genotipo.cromosomas[i];
+        nuevoGeno.push_back(indX.genotipo.cromosomas[i]);
         cromoX[i]= indX.genotipo.cromosomas[i];
     }
 
     for(int i=bitsX; i<bitsX+bitsY; i++){
-        nuevoGeno[i]=indY.genotipo.cromosomas[i];
+        nuevoGeno.push_back(indY.genotipo.cromosomas[i]);
         cromoY[auxIndiceY]= indY.genotipo.cromosomas[i];
         auxIndiceY;
     }
@@ -90,8 +114,7 @@ int Individuo::binDec(int* arreglo, int lon){
 
 string Individuo::imprimir(){
     string strGenotipo="";
-    int longitudCromosomas= sizeof(genotipo.cromosomas)/sizeof(*genotipo.cromosomas);
-    for(int i=0; i<longitudCromosomas; i++)
+    for(int i=0; i<genotipo.cromosomas.size(); i++)
         strGenotipo+=to_string(genotipo.cromosomas[i]);
 
     return "V" + to_string(id) + "\t" + strGenotipo + "\t" + to_string(fenotipo.x) + "\t" + to_string(fenotipo.y);

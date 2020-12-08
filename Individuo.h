@@ -22,13 +22,14 @@ using namespace std;
 
 class Individuo{
     private:
-        int id;
+        int id=0;
         Genotipo genotipo;
         Fenotipo fenotipo;
 
 
     public:
-        Individuo(Genotipo gen, Fenotipo fen); // Constructor 
+        Individuo(int bitsX, int bitsY); // Para la creación aleatoria 
+        Individuo(Genotipo gen, Fenotipo fen); //Para la cruza
         Individuo();
         int obtId();
         Fenotipo obtFenotipo();

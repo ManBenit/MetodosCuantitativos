@@ -97,3 +97,7 @@ double Ambiente::calcMax(vector<double> lista){
             maximo=lista[i];
     return maximo;
 }
+
+vector<Restriccion> Ambiente::obtRestriccciones(){
+    return restricciones;
+}
