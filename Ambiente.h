@@ -17,7 +17,6 @@ Diciembre 2020.
 #include <vector>
 #include <string>
 #include "Restriccion.h"
-#include "Poblacion.h"
 using namespace std;
 
 class Ambiente{
@@ -34,7 +33,7 @@ class Ambiente{
 
 
     public:
-        Ambiente(string Z, bool max, bool noNeg, bool cero, int presicion, int pob, int ind, bool reem);
+        Ambiente(string Z, bool max, bool noNeg, bool cero, int precision, int pob, int ind, bool reem);
         void agregarRestriccion(string expresion); //Expresión completa, ejemplo: a+b<=4000
         void imprimirMejorIndividuo();
     
