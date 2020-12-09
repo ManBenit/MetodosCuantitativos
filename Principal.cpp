@@ -189,5 +189,45 @@ int main(){
     double tiempo = (double(t1-t0)/CLOCKS_PER_SEC);
     cout << "Tiempo de procesamiento: " << tiempo << "s" << endl;
 
+/*
+int puntos=0;
+double* valores_x = NULL;
+double* valores_y = NULL;
+cout<<"Introduzca la cantidad de puntos a evaluar: ";
+cin>> puntos;
+valores_x =  new double[puntos];
+valores_y =  new double[puntos];
+if(puntos>5 || puntos<3 )
+    cout<< "No esta en el rango los puntos a evaluar";
+else{
+    for(int i=0;i<puntos;i++){
+        cout<< i+1 <<". Introduzca el valor de x: ";
+        cin>> valores_x[i];
+        cout<< i+1 <<". Introduzca el valor de y: ";
+        cin>> valores_y[i];
+    }
+}
+
+//valor de m para la función gaussiana
+    double m=0;
+    for(int j=1;j<puntos;j++){
+        if(y[i-1]<y[i])
+            m=x[i];
+    }
+
+
+cout<< "La funcion Gaussiana es : y=e^(-" << ValorDeiteracion << "(-"<< m << "+x)^2)";
+
+*/
+
+
+
+
+
+
+
+
+
+
     return 0;
 }
