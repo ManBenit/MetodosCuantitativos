@@ -109,6 +109,50 @@ double Restriccion::evaluar(string expr, double x, double y){
     return eva.getResultado();
 }
 
+
+
+
+
+double Restriccion::evaluar(double x, double y){
+    string expr= ladoIzq;
+    expr+="|"; //Separador para elimirar el excedente
+    //sustituir correctamente valores
+    stringstream sb;
+    vector<string> separacion;
+    separacion= separar(expr, "x");
+    for(int i=0; i<separacion.size(); i++)
+        sb << separacion[i] << x;
+    expr= sb.str();
+    
+    sb.str("");
+    separacion= separar(expr, "y");
+    for(int i=0; i<separacion.size(); i++)
+        sb << separacion[i] << y;
+    expr= sb.str();
+    sb.str("");
+
+    //Quitar caracteres extras
+    int indSep=0;
+    for(int i=0; i<expr.length(); i++)
+        if(expr[i]=='|'){
+            indSep=i;
+            break;
+        }
+    expr.replace(expr.begin()+indSep, expr.end(), "");
+
+    
+    //cout << expr << endl;
+    Evaluador eva(expr);
+
+    return eva.getResultado();
+}
+
+
+
+
+
+
+
 vector<string> Restriccion::separar(string str, string sep){
     vector<string> elementos;
     string auxSubWord="", assignedWord="";

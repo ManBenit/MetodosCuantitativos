@@ -36,6 +36,7 @@ class Restriccion{
         double valSiX0(); // getter del yalor de y cuando x=0
         bool evaluar(Individuo ind);        
         double evaluar(string expr, double x, double y);
+        double evaluar(double x, double y);
 
     public: //private
         void defAtributos(string expresion);
