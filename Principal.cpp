@@ -5,15 +5,15 @@ using namespace std;
 class Principal{
     //ATRIBUTOS/////////////////////
     public:
-        string Z= "0.2*x+0.5*y"; 
+        /*string Z= "0.2*x+0.5*y"; 
         bool max=true, noNeg=true, cero=true, reem=false; 
-        int precision=0, pob=3, ind=5;
+        int precision=0, pob=3, ind=5;*/
 
-        /*PRimer problema exmaen
-            string Z= "11.5*x+4*y+3.09"; 
+        //PRimer problema exmaen
+        string Z= "11.5*x+4*y+3.09"; 
         bool max=false, noNeg=false, cero=false, reem=true; 
         int precision=0, pob=3, ind=5;
-        */
+        
     ////////////////////////////////
 
     //MÉTODOS///////////////////////
@@ -58,7 +58,8 @@ class Principal{
 int main(){
     //srand(rand(NULL));
     srand ((unsigned)time(NULL));
-    Ambiente ambiente("0.2*x+0.5*y", true, true, true, 0, 3, 5, false);
+    //Ambiente ambiente("0.2*x+0.5*y", true, true, true, 0, 3, 5, false);
+    Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 3, 5, true); //Primer problema examen
     //FO primer problema
     //Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 3, 5, true);
     Principal principal;
@@ -95,15 +96,15 @@ int main(){
            break;        
     }*/
 
-    ambiente.agregarRestriccion("0.1*x+0.6*y <= 2000");
+    /*ambiente.agregarRestriccion("0.1*x+0.6*y <= 2000");
     ambiente.agregarRestriccion("1*x+1*y <= 6000");
     ambiente.agregarRestriccion("1*x+0*y <= 4000");
     if(principal.noNeg){
         ambiente.agregarRestriccion("1*x+0*y >= 0");
         ambiente.agregarRestriccion("0*x+1*y >= 0");
-    }
+    }*/
 
-    /*Restricciones problema 1 Examen
+    //Restricciones problema 1 Examen
     ambiente.agregarRestriccion("1*x+0*y >= -100");
     ambiente.agregarRestriccion("1*x+0*y <= 100");
     ambiente.agregarRestriccion("0*x+1*y >= -132.25");
@@ -112,7 +113,7 @@ int main(){
         ambiente.agregarRestriccion("1*x+0*y >= 0");
         ambiente.agregarRestriccion("0*x+1*y >= 0");
     }
-    */
+    
 
     int* aux= ambiente.calcBitsXY();
     cout << "Bits de X: " << aux[0] << endl;
@@ -198,7 +199,7 @@ int main(){
         }          
     }
     
-    /* Imprimir Mejor Vector
+    //Imprimir Mejor Vector
     for(int j=0; j<poblacion.size(); j++){
         for(int n=0; n<poblacion[j].size(); n++){
             //cout << poblacion[j][n].imprimir();
@@ -215,7 +216,7 @@ int main(){
             }
         }
     }
-    */
+    
 
 
     t1 = clock();
@@ -223,36 +224,36 @@ int main(){
     double tiempo = (double(t1-t0)/CLOCKS_PER_SEC);
     cout << "Tiempo de procesamiento: " << tiempo << "s" << endl;
 
-/*
-int puntos=0;
-double* valores_x = NULL;
-double* valores_y = NULL;
-cout<<"Introduzca la cantidad de puntos a evaluar: ";
-cin>> puntos;
-valores_x =  new double[puntos];
-valores_y =  new double[puntos];
-if(puntos>5 || puntos<3 )
-    cout<< "No esta en el rango los puntos a evaluar";
-else{
-    for(int i=0;i<puntos;i++){
-        cout<< i+1 <<". Introduzca el valor de x: ";
-        cin>> valores_x[i];
-        cout<< i+1 <<". Introduzca el valor de y: ";
-        cin>> valores_y[i];
-    }
-}
 
-////valor de m para la función gaussiana
-    double m=0;
-    for(int j=1;j<puntos;j++){
-        if(valores_y[i-1]<valores_y[i])
-            m=valores_x[i];
+    int puntos=0;
+    double* valores_x = NULL;
+    double* valores_y = NULL;
+    cout<<"Introduzca la cantidad de puntos a evaluar: ";
+    cin>> puntos;
+    valores_x =  new double[puntos];
+    valores_y =  new double[puntos];
+    if(puntos>5 || puntos<3 )
+        cout<< "No esta en el rango los puntos a evaluar";
+    else{
+        for(int i=0;i<puntos;i++){
+            cout<< i+1 <<". Introduzca el valor de x: ";
+            cin>> valores_x[i];
+            cout<< i+1 <<". Introduzca el valor de y: ";
+            cin>> valores_y[i];
+        }
     }
 
+    ////valor de m para la función gaussiana
+        double m=0;
+        for(int j=1;j<puntos;j++){
+            if(valores_y[i-1]<valores_y[i])
+                m=valores_x[i];
+        }
 
-cout<< "La funcion Gaussiana es : y=e^(-" << ValorDeiteracion << "(-"<< m << "+x)^2)";
 
-*/
+    //cout<< "La funcion Gaussiana es : y=e^(-" << ValorDeiteracion << "(-"<< m << "+x)^2)";
+
+
 
 
 
