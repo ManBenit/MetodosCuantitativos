@@ -12,7 +12,7 @@ class Principal{
         //PRimer problema exmaen
         string Z= "11.5*x+4*y+3.09"; 
         bool max=false, noNeg=false, cero=false, reem=true; 
-        int precision=0, pob=3, ind=5;
+        int precision=0, pob=1, ind=10000;
         
     ////////////////////////////////
 
@@ -26,6 +26,7 @@ class Principal{
             cout << "Va a minimizar(0) o maximizar(1)? ";
             cin >> opc;
             opc==0 ? max=false : max=true;
+            if(!max) hacerZNeg(&Z);
             cout << "Considerar variables como no negativas? (si=1, no=0) ";
             cin >> opc;
             opc==0 ? noNeg=false : noNeg=true;
@@ -51,6 +52,26 @@ class Principal{
             cout << "3CM8" << endl << "08/12/2020" << endl;
         }
 
+        void hacerZNeg(string* Z){
+            //Primer caracter de la expresión (- o num)
+            if( (int)(*Z)[0]>=48 && (int)(*Z)[0]<=57 ){
+                stringstream aux;
+                aux << "-" << (*Z);
+                (*Z)= aux.str();
+            }
+            else if( (*Z)[0]=='-' )
+                (*Z)[0]='\0';
+
+            //Al encontrar signos + y - en el resto de la cadena
+            int iAux;
+            (*Z)[0]=='-' ? iAux=1 : iAux=0;
+            for(int i=iAux; i<(*Z).size(); i++)
+                if((*Z)[i]=='-')
+                    (*Z)[i]='+';
+                else if((*Z)[i]=='+')
+                    (*Z)[i]='-';
+        }
+
     ////////////////////////////////
 
 };
@@ -59,7 +80,7 @@ int main(){
     //srand(rand(NULL));
     srand ((unsigned)time(NULL));
     //Ambiente ambiente("0.2*x+0.5*y", true, true, true, 0, 3, 5, false);
-    Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 3, 5, true); //Primer problema examen
+    Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 1, 10000, true); //Primer problema examen
     //FO primer problema
     //Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 3, 5, true);
     Principal principal;
@@ -104,17 +125,51 @@ int main(){
         ambiente.agregarRestriccion("0*x+1*y >= 0");
     }*/
 
+    double sumaX=0;
+    int puntos=0;
+    double* valores_x = NULL;
+    double* valores_y = NULL;
+    cout<<"Introduzca la cantidad de puntos a evaluar: ";
+    cin>> puntos;
+    valores_x =  new double[puntos];
+    valores_y =  new double[puntos];
+    if(puntos>5 || puntos<3 )
+        cout<< "No esta en el rango los puntos a evaluar";
+    else{
+        for(int i=0;i<puntos;i++){
+            cout<< i+1 <<". Introduzca el valor de x: ";
+            cin>> valores_x[i];
+            cout<< i+1 <<". Introduzca el valor de y: ";
+            cin>> valores_y[i];
+        }
+    }
+
+    //sigma_de_x
+    for(int j=0; j<sizeof(valores_x)/sizeof(double); j++ )
+        sumaX+=valores_x[j];
+
+    ////valor de m para la función gaussiana
+    double m=0;
+    for(int j=1;j<puntos;j++){
+        if(valores_y[i-1]<valores_y[i])
+            m=valores_x[i];
+    }
+
+
+    
+
+
+
     //Restricciones problema 1 Examen
-    ambiente.agregarRestriccion("1*x+0*y >= -100");
-    ambiente.agregarRestriccion("1*x+0*y <= 100");
-    ambiente.agregarRestriccion("0*x+1*y >= -132.25");
-    ambiente.agregarRestriccion("0*x+1*y <= 132.25");
+    ambiente.agregarRestriccion( "1*x+0*y >= -100" );
+    ambiente.agregarRestriccion( "1*x+0*y <= 100" );
+    ambiente.agregarRestriccion( "0*x+1*y >= "+to_string((-1)*pow(sumaX, 2)) );
+    ambiente.agregarRestriccion( "0*x+1*y <= "+to_string(pow(sumaX, 2)) );
     if(principal.noNeg){
         ambiente.agregarRestriccion("1*x+0*y >= 0");
         ambiente.agregarRestriccion("0*x+1*y >= 0");
     }
     
-
     int* aux= ambiente.calcBitsXY();
     cout << "Bits de X: " << aux[0] << endl;
     cout << "Bits de Y: " << aux[1] << endl;
@@ -148,7 +203,8 @@ int main(){
             if(cumple){
                 /*cout << indi.imprimir();
                 for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
-                    cout << "\t1";
+                    //cout << "\t1";
+                    cout << "\t" <<ambiente.obtRestriccciones()[k].evaluar(indi);
                 cout << endl;*/
                 indis.push_back(indi);
                 contadorInd+=1;
@@ -217,51 +273,14 @@ int main(){
         }
     }
     
-
-
     t1 = clock();
     
+    //cout<< "La funcion Gaussiana es : y=e^(-" << ValorDeiteracion << "(-"<< m << "+x)^2)";
     double tiempo = (double(t1-t0)/CLOCKS_PER_SEC);
     cout << "Tiempo de procesamiento: " << tiempo << "s" << endl;
 
 
-    int puntos=0;
-    double* valores_x = NULL;
-    double* valores_y = NULL;
-    cout<<"Introduzca la cantidad de puntos a evaluar: ";
-    cin>> puntos;
-    valores_x =  new double[puntos];
-    valores_y =  new double[puntos];
-    if(puntos>5 || puntos<3 )
-        cout<< "No esta en el rango los puntos a evaluar";
-    else{
-        for(int i=0;i<puntos;i++){
-            cout<< i+1 <<". Introduzca el valor de x: ";
-            cin>> valores_x[i];
-            cout<< i+1 <<". Introduzca el valor de y: ";
-            cin>> valores_y[i];
-        }
-    }
-
-    ////valor de m para la función gaussiana
-        double m=0;
-        for(int j=1;j<puntos;j++){
-            if(valores_y[i-1]<valores_y[i])
-                m=valores_x[i];
-        }
-
-
-    //cout<< "La funcion Gaussiana es : y=e^(-" << ValorDeiteracion << "(-"<< m << "+x)^2)";
-
-
-
-
-
-
-
-
-
-
+    
 
 
     return 0;
