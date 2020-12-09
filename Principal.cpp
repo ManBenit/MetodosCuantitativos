@@ -50,6 +50,7 @@ class Principal{
 };
 
 int main(){
+    srand(rand(NULL));
     Ambiente ambiente("0.2*x+0.5*y", true, true, true, 0, 3, 5, false);
     Principal principal;
     vector<vector<Individuo>> poblacion;
