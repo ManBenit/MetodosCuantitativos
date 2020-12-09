@@ -37,7 +37,7 @@ class Restriccion{
         bool evaluar(Individuo ind);        
         double evaluar(string expr, double x, double y);
 
-    private: //private
+    public: //private
         void defAtributos(string expresion);
         vector<string> separar(string str, string sep);
         void minusculas(string* cadena);
