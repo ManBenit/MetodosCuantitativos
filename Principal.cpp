@@ -8,6 +8,12 @@ class Principal{
         string Z= "0.2*x+0.5*y"; 
         bool max=true, noNeg=true, cero=true, reem=false; 
         int precision=0, pob=3, ind=5;
+
+        /*PRimer problema exmaen
+            string Z= "11.5*x+4*y+3.09"; 
+        bool max=false, noNeg=false, cero=false, reem=true; 
+        int precision=0, pob=3, ind=5;
+        */
     ////////////////////////////////
 
     //MÉTODOS///////////////////////
@@ -50,12 +56,15 @@ class Principal{
 };
 
 int main(){
-    srand(rand(NULL));
+    //srand(rand(NULL));
+    srand ((unsigned)time(NULL));
     Ambiente ambiente("0.2*x+0.5*y", true, true, true, 0, 3, 5, false);
+    //FO primer problema
+    //Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 3, 5, true);
     Principal principal;
     vector<vector<Individuo>> poblacion;
     unsigned t0, t1; //Medición de tiempo de ejecución
-    string restric;
+    string restric; 
     int nrest, i=0;
     int contadorInd=0, contadorPob=0;
     //principal.desplegarEncabezado();
@@ -94,6 +103,16 @@ int main(){
         ambiente.agregarRestriccion("0*x+1*y >= 0");
     }
 
+    /*Restricciones problema 1 Examen
+    ambiente.agregarRestriccion("1*x+0*y >= -100");
+    ambiente.agregarRestriccion("1*x+0*y <= 100");
+    ambiente.agregarRestriccion("0*x+1*y >= -132.25");
+    ambiente.agregarRestriccion("0*x+1*y <= 132.25");
+    if(principal.noNeg){
+        ambiente.agregarRestriccion("1*x+0*y >= 0");
+        ambiente.agregarRestriccion("0*x+1*y >= 0");
+    }
+    */
 
     int* aux= ambiente.calcBitsXY();
     cout << "Bits de X: " << aux[0] << endl;
@@ -173,16 +192,30 @@ int main(){
                 z1=ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y);
                 if(z1>z2)
                 {
-                    z2=z1;
-                    pos[k]=n;
-                    cout<<"El mejor individuo, en posicion \t"<<pos[k];
-                    cout<<endl;                    
+                    z2=z1;                  
                 }
             }
         }          
     }
     
-    
+    /* Imprimir Mejor Vector
+    for(int j=0; j<poblacion.size(); j++){
+        for(int n=0; n<poblacion[j].size(); n++){
+            //cout << poblacion[j][n].imprimir();
+            for(int k=0; k<ambiente.obtRestriccciones().size(); k++){
+                //cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(poblacion[j][n]);
+                //cout << "\t1";
+                if(z2==ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y))
+                {
+                    cout <<"El mejor individuo \n"<< poblacion[j][n].imprimir();
+                    cout<<endl;
+                    break;
+
+                }
+            }
+        }
+    }
+    */
 
 
     t1 = clock();
