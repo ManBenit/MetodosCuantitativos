@@ -36,7 +36,7 @@ class Ambiente{
         Ambiente(string Z, bool max, bool noNeg, bool cero, int precision, int pob, int ind, bool reem);
         void agregarRestriccion(string expresion); //Expresión completa, ejemplo: a+b<=4000
         void imprimirMejorIndividuo();  
-        string getz();
+        string getZ();
     
     public: //private
         bool verificar();
