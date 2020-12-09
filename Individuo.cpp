@@ -111,6 +111,20 @@ int Individuo::binDec(int* arreglo, int lon){
     return decimal;
 }
 
+int Individuo::binDec(vector<int> arreglo){
+    int decimal=0;
+    int base=2;
+    int pot=0;
+
+    for(int i=arreglo.size()-1; i>=0; i--){
+        if(arreglo[i]==1)
+            decimal+= pow(base, pot);
+        pot+=1;
+    }
+    
+    return decimal;
+}
+
 
 string Individuo::imprimir(){
     string strGenotipo="";

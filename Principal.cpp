@@ -89,6 +89,7 @@ int main(){
     string restric; 
     int nrest, i=0;
     int contadorInd=0, contadorPob=0;
+    double aj, bj;
     //principal.desplegarEncabezado();
     //principal.menu();
     cout << endl;
@@ -144,15 +145,18 @@ int main(){
         }
     }
 
+    double mLin=0; //m de la función lineal
+    double b=0, kGaus=0;
+
     //sigma_de_x
     for(int j=0; j<sizeof(valores_x)/sizeof(double); j++ )
         sumaX+=valores_x[j];
 
     ////valor de m para la función gaussiana
-    double m=0;
+    double mGaus=0; //m de la función gaussiana
     for(int j=1;j<puntos;j++){
         if(valores_y[i-1]<valores_y[i])
-            m=valores_x[i];
+            mGaus=valores_x[i];
     }
 
 
@@ -160,7 +164,7 @@ int main(){
 
 
 
-    //Restricciones problema 1 Examen
+    //Restricciones problema 1 Examen (restricciones de m y b)
     ambiente.agregarRestriccion( "1*x+0*y >= -100" );
     ambiente.agregarRestriccion( "1*x+0*y <= 100" );
     ambiente.agregarRestriccion( "0*x+1*y >= "+to_string((-1)*pow(sumaX, 2)) );
@@ -169,10 +173,13 @@ int main(){
         ambiente.agregarRestriccion("1*x+0*y >= 0");
         ambiente.agregarRestriccion("0*x+1*y >= 0");
     }
+
+    double* ajbjx= ambiente.calcAjBj('x'); //representando m
+    double* ajbjy= ambiente.calcAjBj('y'); //representando b
     
-    int* aux= ambiente.calcBitsXY();
-    cout << "Bits de X: " << aux[0] << endl;
-    cout << "Bits de Y: " << aux[1] << endl;
+    int* numBits= ambiente.calcBitsXY();
+    cout << "Bits de X: " << numBits[0] << endl;
+    cout << "Bits de Y: " << numBits[1] << endl;
     cout << "Se cumple? " << ambiente.verificar() << endl;
     
     bool cumple=false;
@@ -187,13 +194,13 @@ int main(){
     }*/
 
     t0=clock();
-    //GENERAR POBLACIONES
+    //GENERAR POBLACIONES (comprobar restricciones de m y b)
     while(poblacion.size()<principal.pob){
         vector<Individuo> indis;
 
         //GENERAR INDIVIDUOS
         while(true){ //Mientras no se cumplan las restricciones,
-            Individuo indi(aux[0], aux[1]); //genera otro,
+            Individuo indi( numBits[0], numBits[1]); //genera otro,
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++){ //debe cumplir todas las restricciones,
                 cumple= ambiente.obtRestriccciones()[k].evaluar(indi);
                 if(!cumple) //con una que no cumpla,
@@ -218,6 +225,9 @@ int main(){
         poblacion.push_back(indis);
         indis.clear();
     }
+
+
+    
 
 
     //cout << poblacion.size() << endl ;
@@ -255,6 +265,7 @@ int main(){
         }          
     }
     
+    Individuo mejorI;
     //Imprimir Mejor Vector
     for(int j=0; j<poblacion.size(); j++){
         for(int n=0; n<poblacion[j].size(); n++){
@@ -264,7 +275,9 @@ int main(){
                 //cout << "\t1";
                 if(z2==ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y))
                 {
-                    cout <<"El mejor individuo \n"<< poblacion[j][n].imprimir();
+                    mejorI= poblacion[j][n];
+                    //cout << "\nA ver: " << ( poblacion[j][n].obtFenotipo().x*RandomXORShft(rand()).randFloat() )/100 << endl;
+                    //cout << "A ver2: " << ( poblacion[j][n].obtFenotipo().y*RandomXORShft(rand()).randFloat() )/100 << endl;
                     cout<<endl;
                     break;
 
@@ -272,6 +285,22 @@ int main(){
             }
         }
     }
+
+    cout <<"El mejor individuo \n"<< mejorI.imprimir();
+
+    int entK= mejorI.binDec(mejorI.obtGenotipo().cromosomas);
+
+    kGaus= ajbjx[0]+ entK * ( (ajbjx[1]-ajbjx[0]) / (pow(2, (numBits[0]+numBits[1])-1)) );
+    mLin= ajbjx[0]+ mejorI.obtFenotipo().x * ( (ajbjx[1]-ajbjx[0]) / (pow(2, numBits[0]-1)) );
+    b= ajbjy[0]+ mejorI.obtFenotipo().y * ( (ajbjy[1]-ajbjy[0]) / (pow(2, numBits[1]-1)) );
+
+
+    cout << "kGaus: " << kGaus << endl;
+    cout << "mLin: " << mLin << endl;
+    cout << "b: " << b << endl;
+    cout << "mGaus: " << mGaus << endl;
+
+
     
     t1 = clock();
     

@@ -38,6 +38,7 @@ class Individuo{
         Individuo cruzar(Individuo indX, Individuo indY, int bitsX, int bitsY);
         string imprimir();
 
-    private:
+    public:
         int binDec(int* arreglo, int lon);
+        int binDec(vector<int> arreglo);
 };
