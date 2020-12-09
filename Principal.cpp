@@ -208,11 +208,11 @@ else{
     }
 }
 
-//valor de m para la función gaussiana
+////valor de m para la función gaussiana
     double m=0;
     for(int j=1;j<puntos;j++){
-        if(y[i-1]<y[i])
-            m=x[i];
+        if(valores_y[i-1]<valores_y[i])
+            m=valores_x[i];
     }
 
 
