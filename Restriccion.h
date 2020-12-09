@@ -34,12 +34,12 @@ class Restriccion{
         Restriccion(string expresion);
         double valSiY0(); //getter del valor de x cuando y=0
         double valSiX0(); // getter del yalor de y cuando x=0
-        bool evaluar(Individuo ind);
+        bool evaluar(Individuo ind);        
+        double evaluar(string expr, double x, double y);
 
     private: //private
         void defAtributos(string expresion);
         vector<string> separar(string str, string sep);
-        double evaluar(string expr, double x, double y);
         void minusculas(string* cadena);
         void defDominio();
 };

@@ -101,3 +101,8 @@ double Ambiente::calcMax(vector<double> lista){
 vector<Restriccion> Ambiente::obtRestriccciones(){
     return restricciones;
 }
+
+string Ambiente::getZ()
+{
+    return Z;
+}
