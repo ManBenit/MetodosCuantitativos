@@ -35,12 +35,8 @@ class Ambiente{
     public:
         Ambiente(string Z, bool max, bool noNeg, bool cero, int precision, int pob, int ind, bool reem);
         void agregarRestriccion(string expresion); //Expresión completa, ejemplo: a+b<=4000
-<<<<<<< HEAD
-        void imprimirMejorIndividuo();        
-=======
-        void imprimirMejorIndividuo();
->>>>>>> f60d9897722f95bc16ebd5e6e83648c36e78605f
-        string getZ();
+        void imprimirMejorIndividuo();  
+        string getz();
     
     public: //private
         bool verificar();
@@ -50,5 +46,6 @@ class Ambiente{
         double generarAleatorio();
         double calcMin(vector<double> lista);
         double calcMax(vector<double> lista);
-        vector<Restriccion> obtRestriccciones();
+        vector<Restriccion> obtRestriccciones();              
+        string getZ();
 };
