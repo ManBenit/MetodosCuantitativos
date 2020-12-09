@@ -12,7 +12,7 @@ class Principal{
         //PRimer problema exmaen
         string Z= "11.5*x+4*y+3.09"; 
         bool max=false, noNeg=false, cero=false, reem=true; 
-        int precision=0, pob=1, ind=10000;
+        int precision=0, pob=1, ind=5000;
         
     ////////////////////////////////
 
@@ -80,7 +80,7 @@ int main(){
     //srand(rand(NULL));
     srand ((unsigned)time(NULL));
     //Ambiente ambiente("0.2*x+0.5*y", true, true, true, 0, 3, 5, false);
-    Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 1, 10000, true); //Primer problema examen
+    Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 1, 5000, true); //Primer problema examen
     //FO primer problema
     //Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 3, 5, true);
     Principal principal;
@@ -254,10 +254,11 @@ int main(){
     for(int j=0; j<poblacion.size(); j++){
         for(int n=0; n<poblacion[j].size(); n++){
             //cout << poblacion[j][n].imprimir();
+            z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
             {
                 z1=ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y);
-                if(z1>z2)
+                if(z1<z2)
                 {
                     z2=z1;                  
                 }
