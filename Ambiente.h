@@ -47,5 +47,4 @@ class Ambiente{
         double calcMin(vector<double> lista);
         double calcMax(vector<double> lista);
         vector<Restriccion> obtRestriccciones();  
-        //string getZ();
 };
