@@ -46,6 +46,6 @@ class Ambiente{
         double generarAleatorio();
         double calcMin(vector<double> lista);
         double calcMax(vector<double> lista);
-        vector<Restriccion> obtRestriccciones();              
-        string getZ();
+        vector<Restriccion> obtRestriccciones();  
+        //string getZ();
 };
