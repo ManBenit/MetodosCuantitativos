@@ -73,7 +73,6 @@ void Restriccion::defAtributos(string expresion){
     ladoIzq= exprPartes[0];
     minusculas(&ladoIzq);
     ladoDer= stod(exprPartes[1]);
-    cout << ladoIzq << "|" << condicion << "|" << ladoDer;
 }
 
 //Evalúa la expresión que se obtuvo al definir atributos con los parámetros x,y
@@ -186,13 +185,17 @@ void Restriccion::defDominio(){
             indice+=1;
         }
         coeficiente= stod(coef);
-        cout << coef << "<>" << coeficiente << endl;
+        double eval;
         if(xoy==0){
-            siY0= ladoDer/evaluar(ladoIzq, 1, 0);
+            eval= evaluar(ladoIzq, 1, 0);
+            if(eval==0) eval=1;
+            siY0= ladoDer/eval;
             if(siY0==INFINITY) siY0=0;
         }
         else{
-            siX0= ladoDer/evaluar(ladoIzq, 0, 1);
+            eval= evaluar(ladoIzq, 0, 1);
+            if(eval==0) eval=1;
+            siX0= ladoDer/eval;
             if(siX0==INFINITY) siX0=0;
         }
 
