@@ -31,19 +31,21 @@ double Restriccion::valSiX0(){
 
 bool Restriccion::evaluar(Individuo ind){
     bool ret=false;
+    double evaluacion= evaluar(ladoIzq, ind.obtFenotipo().x, ind.obtFenotipo().y);
     switch(condicion){
         case 0: //<=
-            if( evaluar(ladoIzq, ind.obtFenotipo().x, ind.obtFenotipo().y) <= ladoDer )
+            if( evaluacion <= ladoDer )
                 ret=true;
             break;
 
         case 1: //=
-            if( evaluar(ladoIzq, ind.obtFenotipo().x, ind.obtFenotipo().y) == ladoDer )
+            if( evaluacion == ladoDer )
                 ret=true;
             break;
 
         case 2: //>=
-            if( evaluar(ladoIzq, ind.obtFenotipo().x, ind.obtFenotipo().y) >= ladoDer )
+            //cout << ladoIzq << "\t" << ind.obtFenotipo().x << "\t" << ind.obtFenotipo().y << "\t" << evaluacion << endl;
+            if( evaluacion >= ladoDer )
                 ret=true;
             break;
     }

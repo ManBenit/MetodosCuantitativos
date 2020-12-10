@@ -7,12 +7,13 @@ class Principal{
     public:
         /*string Z= "0.2*x+0.5*y"; 
         bool max=true, noNeg=true, cero=true, reem=false; 
-        int precision=0, pob=3, ind=5;*/
+        int precision=0, pob=1, ind=10000;*/
 
         //PRimer problema exmaen
-        string Z= "11.5*x+4*y+3.09"; 
+        //string Z= "11.5*x+4*y+3.09"; //Z normal
+        string Z= "(11.5*x+4*y+3.09)*(0-1)"; //Z negativa
         bool max=false, noNeg=false, cero=false, reem=true; 
-        int precision=0, pob=1, ind=5000;
+        int precision=3, pob=1, ind=100;
         
     ////////////////////////////////
 
@@ -53,37 +54,38 @@ class Principal{
         }
 
         void hacerZNeg(string* Z){
-            //Primer caracter de la expresión (- o num)
             if( (int)(*Z)[0]>=48 && (int)(*Z)[0]<=57 ){
                 stringstream aux;
-                aux << "-" << (*Z);
+                aux << "(" << (*Z) << ")" << "*(0-1)";
                 (*Z)= aux.str();
             }
-            else if( (*Z)[0]=='-' )
+            else if( (*Z)[0]=='-' ){
                 (*Z)[0]='\0';
 
-            //Al encontrar signos + y - en el resto de la cadena
-            int iAux;
-            (*Z)[0]=='-' ? iAux=1 : iAux=0;
-            for(int i=iAux; i<(*Z).size(); i++)
-                if((*Z)[i]=='-')
-                    (*Z)[i]='+';
-                else if((*Z)[i]=='+')
-                    (*Z)[i]='-';
+                for(int i=1; i<(*Z).size(); i++)
+                    if((*Z)[i]=='-')
+                        (*Z)[i]='+';
+                    else if((*Z)[i]=='+')
+                        (*Z)[i]='-';
+            }
         }
-
     ////////////////////////////////
 
 };
 
 int main(){
+    Principal principal;
+    //string foZ= "0.2*x+0.5*y"; //Prueba de la tarea
+    string foZ= "11.5*x+4*y+3.09"; //Examen
+    principal.hacerZNeg(&foZ); //Decomente esta línea si quiere hacer Max(-Z) <-******************
+
     //srand(rand(NULL));
     srand ((unsigned)time(NULL));
-    //Ambiente ambiente("0.2*x+0.5*y", true, true, true, 0, 3, 5, false);
-    Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 1, 5000, true); //Primer problema examen
+    //Ambiente ambiente(foZ, true, true, true, 0, 3, 5, false);
+    Ambiente ambiente(foZ, false, false, false, 0, 1, 100, true); //Primer problema examen
     //FO primer problema
     //Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 3, 5, true);
-    Principal principal;
+    
     vector<vector<Individuo>> poblacion;
     unsigned t0, t1; //Medición de tiempo de ejecución
     string restric; 
@@ -159,7 +161,6 @@ int main(){
             mGaus=valores_x[i];
     }
 
-
     
 
 
@@ -214,8 +215,10 @@ int main(){
                     cout << "\t" <<ambiente.obtRestriccciones()[k].evaluar(indi);
                 cout << endl;*/
                 indis.push_back(indi);
+                cout << contadorInd << endl;
                 contadorInd+=1;
             }
+
 
             if(contadorInd==principal.ind)
                 break;
@@ -248,19 +251,19 @@ int main(){
     }*/
 
 
+    //MODO ORIGINAL 
     double z1;
     double z2=0;
     int pos[poblacion.size()];
     for(int j=0; j<poblacion.size(); j++){
         for(int n=0; n<poblacion[j].size(); n++){
             //cout << poblacion[j][n].imprimir();
-            z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
             {
                 z1=ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y);
-                if(z1<z2)
+                if(z1>z2)
                 {
-                    z2=z1;                  
+                    z2=z1;     
                 }
             }
         }          
@@ -288,12 +291,14 @@ int main(){
     }
 
     cout <<"El mejor individuo \n"<< mejorI.imprimir();
+    cout << "aj" << ajbjx[0] << endl;
+    cout << "bj" << ajbjx[1] << endl;
 
     int entK= mejorI.binDec(mejorI.obtGenotipo().cromosomas);
 
-    kGaus= ajbjx[0]+ entK * ( (ajbjx[1]-ajbjx[0]) / (pow(2, (numBits[0]+numBits[1])-1)) );
-    mLin= ajbjx[0]+ mejorI.obtFenotipo().x * ( (ajbjx[1]-ajbjx[0]) / (pow(2, numBits[0]-1)) );
-    b= ajbjy[0]+ mejorI.obtFenotipo().y * ( (ajbjy[1]-ajbjy[0]) / (pow(2, numBits[1]-1)) );
+    kGaus= ajbjx[0]+ entK * ( (ajbjx[1]-ajbjx[0]) / (pow(2, (numBits[0]+numBits[1]))-1) );
+    mLin= ajbjx[0]+ mejorI.obtFenotipo().x * ( (ajbjx[1]-ajbjx[0]) / (pow(2, numBits[0])-1) );
+    b= ajbjy[0]+ mejorI.obtFenotipo().y * ( (ajbjy[1]-ajbjy[0]) / (pow(2, numBits[1])-1) );
 
 
     cout << "kGaus: " << kGaus << endl;
