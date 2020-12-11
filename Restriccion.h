@@ -43,4 +43,5 @@ class Restriccion{
         vector<string> separar(string str, string sep);
         void minusculas(string* cadena);
         void defDominio();
+        double coeficiente(char xoy);
 };

@@ -200,52 +200,84 @@ void Restriccion::minusculas(string* cadena){
 }
 
 void Restriccion::defDominio(){
-    //Entendiendo que en la expresión del lado izquierdo hay solo una vez x y y
-    int indice=0;
-    string coefInv="";
-    string coef="";
-    double coeficiente=1;
     int xoy=0;
     char xy[]={'x', 'y'};
+    double coefX= coeficiente('x');
+    double coefY= coeficiente('y');
+
     //Calcular x si y=0
     //Obtener coeficiente de X
     ///encontrar x
-    while(xoy<2){
-        coefInv="";
-        coef="";
-        for(int i=0; i<ladoIzq.length(); i++)
-            if(ladoIzq[i]==xy[xoy]){
-                indice=i;
-                break;
-            }
-        indice-=2; //Para que tome los números, no la letra ni el símbolo
-        //Sacar su coeficiente, pero saldrá invertido
-        while( ((int)ladoIzq[indice]>=48 && (int)ladoIzq[indice]<=57) || ladoIzq[indice]=='.' ){//Mientras haya números (coeficiente)
-            coefInv+=ladoIzq[indice];
-            indice-=1;
-        } 
-        //Regresar el coeficiente a su forma original
-        indice=0;
-        for(int i=coefInv.length()-1; i>=0; i--){
-            coef+=coefInv[i];
-            indice+=1;
-        }
-        coeficiente= stod(coef);
+    while(xoy<1){
         double eval;
-        if(xoy==0){
-            eval= evaluar(ladoIzq, 1, 0);
-            if(eval==0) eval=1;
-            siY0= ladoDer/eval;
-            if(siY0==INFINITY) siY0=0;
+        //<<"coefY "<<coefY<<" coefX "<<coefX<<endl;
+        if(coefY==0&&coefX!=0){
+            /*
+            if(coefY==0&&coefX!=0){
+                //siY0=0;
+                cout <<"sin y, x="<<siY0<<endl;
+            }
+            else{*/
+                eval= evaluar(ladoIzq, 1, 0);//<-Cambio (1,0)
+                if(eval==0) eval=1;
+                //cout<<"eval X "<<eval<<endl;
+                siY0= ladoDer/eval;            
+                //if(siY0==INFINITY) siY0=0;
+                //cout <<"si y=0, x="<<siY0<<endl;
+            //}
+            
         }
         else{
-            eval= evaluar(ladoIzq, 0, 1);
-            if(eval==0) eval=1;
-            siX0= ladoDer/eval;
-            if(siX0==INFINITY) siX0=0;
+            /*
+            if(coefX==0&&coefY!=0){
+                siX0=0;
+                cout<<"sin x, y= "<<siX0<<endl;
+            }
+            else{*/
+                eval= evaluar(ladoIzq, 0, 1);//<- Cambio 0,1
+                if(eval==0) eval=1;
+                //cout<<"eval Y "<<eval<<endl;
+                siX0= ladoDer/eval;
+                //if(siX0==INFINITY) siX0=0;
+                //cout<<"six=0, y= "<<siX0<<endl;
+            //}
+            
         }
 
         xoy+=1;
     }
+}
+
+double Restriccion::coeficiente(char xoy){
+    //xoy: coeficiente de x o de y
+    //Entendiendo que en la expresión del lado izquierdo hay solo una vez x y y /////!!!!!!!!!!!
+    int indice=0;
+    string coefInv="";
+    string coef="";
+    double coeficiente=1;
+
+    coefInv="";
+    coef="";
+    //Buscar la variable y obtener su índice
+    for(int i=0; i<ladoIzq.length(); i++)
+        if(ladoIzq[i]==xoy){
+            indice=i;
+            break;
+        }
+    indice-=2; //Para que tome los números, no la letra ni el símbolo *
+    //Sacar su coeficiente, pero saldrá invertido
+    while( ((int)ladoIzq[indice]>=48 && (int)ladoIzq[indice]<=57) || ladoIzq[indice]=='.' ){//Mientras haya números (coeficiente)
+        coefInv+=ladoIzq[indice];
+        indice-=1;
+    } 
+    //Regresar el coeficiente a su forma original
+    indice=0;
+    for(int i=coefInv.length()-1; i>=0; i--){
+        coef+=coefInv[i];
+        indice+=1;
+    }
+    coeficiente= stod(coef);
+
+    return coeficiente;
 }
 
