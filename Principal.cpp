@@ -1,4 +1,4 @@
-#include "Ambiente.h"
+#include "./MetodosCuantitativos/Ambiente.h"
 using namespace std;
 
 //CLASE PRONCIPAL DE PRUEBA, NO ESTÁ EN REPOSITORIO
@@ -11,9 +11,15 @@ class Principal{
 
         //PRimer problema exmaen
         //string Z= "11.5*x+4*y+3.09"; //Z normal
+        /*
         string Z= "(11.5*x+4*y+3.09)*(0-1)"; //Z negativa
         bool max=false, noNeg=false, cero=false, reem=true; 
-        int precision=3, pob=1, ind=100;
+        int precision=3, pob=1, ind=1000;
+        */
+       //Para usar en el menú
+       string Z; //Z negativa
+        bool max, noNeg, cero, reem; 
+        int precision, pob, ind;
         
     ////////////////////////////////
 
@@ -76,13 +82,13 @@ class Principal{
 int main(){
     Principal principal;
     //string foZ= "0.2*x+0.5*y"; //Prueba de la tarea
-    string foZ= "11.5*x+4*y+3.09"; //Examen
-    principal.hacerZNeg(&foZ); //Decomente esta línea si quiere hacer Max(-Z) <-******************
+    //string foZ= "11.5*x+4*y+3.09"; //Examen
+    //principal.hacerZNeg(&foZ); //Decomente esta línea si quiere hacer Max(-Z) <-******************
 
     //srand(rand(NULL));
-    srand ((unsigned)time(NULL));
+    srand ((signed)time(NULL));
     //Ambiente ambiente(foZ, true, true, true, 0, 3, 5, false);
-    Ambiente ambiente(foZ, false, false, false, 0, 1, 100, true); //Primer problema examen
+    //Ambiente ambiente(foZ, false, false, false, 0, 1, 1000, true); //Primer problema examen
     //FO primer problema
     //Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 3, 5, true);
     
@@ -92,10 +98,10 @@ int main(){
     int nrest, i=0;
     int contadorInd=0, contadorPob=0;
     double aj, bj;
-    //principal.desplegarEncabezado();
-    //principal.menu();
+    principal.desplegarEncabezado();
+    principal.menu();
     cout << endl;
-    /*Ambiente ambiente(
+    Ambiente ambiente(
         principal.Z, 
         principal.max, 
         principal.noNeg, 
@@ -104,7 +110,7 @@ int main(){
         principal.pob, 
         principal.ind, 
         principal.reem
-    );*/
+    );
 
     /*cout << "Cuantas restricciones debe cumplir? ";
     cin >> nrest;
@@ -130,12 +136,16 @@ int main(){
 
     double sumaX=0;
     int puntos=0;
-    double* valores_x = NULL;
-    double* valores_y = NULL;
+    //double* valores_x;
+    //double* valores_y;
     cout<<"Introduzca la cantidad de puntos a evaluar: ";
     cin>> puntos;
-    valores_x =  new double[puntos];
-    valores_y =  new double[puntos];
+    //valores_x =  new double[puntos];
+    //valores_y =  new double[puntos];
+
+    double valores_x[puntos];
+    double valores_y[puntos];
+
     if(puntos>5 || puntos<3 )
         cout<< "No esta en el rango los puntos a evaluar";
     else{
@@ -149,9 +159,10 @@ int main(){
 
     double mLin=0; //m de la función lineal
     double b=0, kGaus=0;
-
+    //for(int j=0; j<valores_x.size(); j++ )
+      //  cout<<"Valores xj:"<<valores_x[j]<<endl;
     //sigma_de_x
-    for(int j=0; j<sizeof(valores_x)/sizeof(double); j++ )
+    for(int j=0; j<sizeof(valores_x)/sizeof(*valores_x); j++ )
         sumaX+=valores_x[j];
 
     ////valor de m para la función gaussiana
@@ -161,15 +172,20 @@ int main(){
             mGaus=valores_x[i];
     }
 
-    
+    cout<<sumaX<<endl;
 
 
 
     //Restricciones problema 1 Examen (restricciones de m y b)
     ambiente.agregarRestriccion( "1*x+0*y >= -100" );
     ambiente.agregarRestriccion( "1*x+0*y <= 100" );
+    
+    //ambiente.agregarRestriccion( "0*x+1*y >= -132.25");
+    //ambiente.agregarRestriccion( "0*x+1*y <=  132.25");
     ambiente.agregarRestriccion( "0*x+1*y >= "+to_string((-1)*pow(sumaX, 2)) );
+    cout<<"To string expre aj: "<<to_string((-1)*pow(sumaX, 2))<<endl;
     ambiente.agregarRestriccion( "0*x+1*y <= "+to_string(pow(sumaX, 2)) );
+    cout<<"To string expre bj: "<<to_string(pow(sumaX, 2))<<endl;
     if(principal.noNeg){
         ambiente.agregarRestriccion("1*x+0*y >= 0");
         ambiente.agregarRestriccion("0*x+1*y >= 0");
@@ -203,7 +219,7 @@ int main(){
         while(true){ //Mientras no se cumplan las restricciones,
             Individuo indi( numBits[0], numBits[1]); //genera otro,
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++){ //debe cumplir todas las restricciones,
-                cumple= ambiente.obtRestriccciones()[k].evaluar(indi);
+                cumple= ambiente.obtRestriccciones()[k].evaluar(indi);                
                 if(!cumple) //con una que no cumpla,
                     break; //generamos otro.
             }
@@ -215,7 +231,8 @@ int main(){
                     cout << "\t" <<ambiente.obtRestriccciones()[k].evaluar(indi);
                 cout << endl;*/
                 indis.push_back(indi);
-                cout << contadorInd << endl;
+                //cout << contadorInd << endl;
+                //cout<<"Fenotipos "<<indi.obtFenotipo().x<<" "<<indi.obtFenotipo().y<<endl;
                 contadorInd+=1;
             }
 
@@ -253,11 +270,12 @@ int main(){
 
     //MODO ORIGINAL 
     double z1;
-    double z2=0;
+    double z2;
     int pos[poblacion.size()];
     for(int j=0; j<poblacion.size(); j++){
+        z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
         for(int n=0; n<poblacion[j].size(); n++){
-            //cout << poblacion[j][n].imprimir();
+            cout << poblacion[j][n].imprimir();
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
             {
                 z1=ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y);
@@ -266,7 +284,9 @@ int main(){
                     z2=z1;     
                 }
             }
-        }          
+            cout<<endl;
+        }   
+        cout<<endl;       
     }
     
     Individuo mejorI;
@@ -282,17 +302,19 @@ int main(){
                     mejorI= poblacion[j][n];
                     //cout << "\nA ver: " << ( poblacion[j][n].obtFenotipo().x*RandomXORShft(rand()).randFloat() )/100 << endl;
                     //cout << "A ver2: " << ( poblacion[j][n].obtFenotipo().y*RandomXORShft(rand()).randFloat() )/100 << endl;
-                    cout<<endl;
+                    //cout<<endl;
                     break;
-
                 }
             }
         }
     }
 
-    cout <<"El mejor individuo \n"<< mejorI.imprimir();
-    cout << "aj" << ajbjx[0] << endl;
-    cout << "bj" << ajbjx[1] << endl;
+    cout <<"El mejor individuo \n"<< mejorI.imprimir()<<endl;
+    //cout << "aj" << ajbjx[0] << endl;
+    //cout << "bj" << ajbjx[1] << endl;
+    
+    cout<<"ajbjx[0] "<<ajbjx[0]<<" ajbjx[1] "<<ajbjx[1]<<" numBits[0] "<<numBits[0]<<endl;
+    cout<<"ajbjy[0] "<<ajbjy[0]<<" ajbjy[1] "<<ajbjy[1]<<" numBits[1] "<<numBits[1]<<endl;
 
     int entK= mejorI.binDec(mejorI.obtGenotipo().cromosomas);
 
