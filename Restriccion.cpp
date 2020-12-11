@@ -19,6 +19,8 @@ Restriccion::Restriccion(string expresion){
     defDominio();
 }
 
+Restriccion::Restriccion(){}
+
 //getter del valor de la ecuación si y=0
 double Restriccion::valSiY0(){
     return siY0;
@@ -104,7 +106,6 @@ double Restriccion::evaluar(string expr, double x, double y){
         }
     expr.replace(expr.begin()+indSep, expr.end(), "");
 
-    
     //cout << expr << endl;
     Evaluador eva(expr);
 
@@ -239,7 +240,7 @@ void Restriccion::defDominio(){
                 //cout<<"eval Y "<<eval<<endl;
                 siX0= ladoDer/eval;
                 //if(siX0==INFINITY) siX0=0;
-                cout<<"six=0, y= "<<siX0<<endl;
+                //cout<<"six=0, y= "<<siX0<<endl;
             //}
             
         }

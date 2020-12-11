@@ -32,6 +32,7 @@ class Restriccion{
 
     public:
         Restriccion(string expresion);
+        Restriccion();
         double valSiY0(); //getter del valor de x cuando y=0
         double valSiX0(); // getter del yalor de y cuando x=0
         bool evaluar(Individuo ind);        

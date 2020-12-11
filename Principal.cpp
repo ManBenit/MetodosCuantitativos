@@ -40,15 +40,15 @@ class Principal{
             cout << "Los rangos de las restricciones seran considerados desde cero? (si=1, no=0) ";
             cin >> opc;
             opc==0 ? cero=false : cero=true;
-            cout << "Ingrese precision del algoritmo: (0 o 1) ";
+            cout << "Ingrese precision del algoritmo: ";
             cin >> precision;
             cout << "Numero de poblaciones: ";
             cin >> pob;
             cout << "Numero de individuos por poblacion: " ;
             cin >> ind;
-            cout << "Algoritmo con reemplazo? (si=1, no=0) ";
-            cin >> opc;
-            opc==0 ? reem=false : reem=true;
+            //cout << "Algoritmo con reemplazo? (si=1, no=0) ";
+            //cin >> opc;
+            //opc==0 ? reem=false : reem=true;
         }
 
         void desplegarEncabezado(){
@@ -165,7 +165,7 @@ int main(){
         principal.precision, 
         principal.pob, 
         principal.ind, 
-        principal.reem
+        false
     );
 
     
@@ -283,42 +283,44 @@ int main(){
     //MODO ORIGINAL 
     double z1;
     double z2;
+    double zAux;
     int pos[poblacion.size()];
     //Separador de Z
-    //vector<string> Zpartes= ambiente.obtRestriccciones()[0].separar(ambiente.getZ(), ")+(");
-    //Zpartes[0][0]='\0';
-    //Zpartes[Zpartes.size()-1][ Zpartes[Zpartes.size()-1].size()-1 ]='\0';
-    //for(int z=0; z<Zpartes.size(); z++)
-        //cout << Zpartes[z] << endl;
-
-    /*
-    cout << laZ << endl;
-    vector<string> Zpartes= separar(laZ, ")+(");
+    Restriccion rAux;
+    vector<string> Zpartes=  rAux.separar(ambiente.getZ(), ")+(");
     Zpartes[0].replace(0, 1, "");
     Zpartes[Zpartes.size()-1].replace( Zpartes[Zpartes.size()-1].size()-1, Zpartes[Zpartes.size()-1].size(), "" );
     for(int z=0; z<Zpartes.size(); z++)
         cout << Zpartes[z] << endl;
-    */
 
     for(int j=0; j<poblacion.size(); j++){
-        //z2=0;
-        //for(int s=0; s<Zpartes.size(); s++)
-            //z2+= abs( ambiente.obtRestriccciones()[0].evaluar(Zpartes[s],poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y) );
-
-        z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
+        //zAux=0;
+        for(int s=0; s<Zpartes.size(); s++)
+            zAux+= abs( ambiente.obtRestriccciones()[0].evaluar(Zpartes[s],poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y) );
+        
+        
+        z2=zAux;
+        //cout<<"z2: "<<z2<<endl;
+        zAux=0;
+        //z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
         for(int n=0; n<poblacion[j].size(); n++){
-            cout << poblacion[j][n].imprimir();
+            //cout << poblacion[j][n].imprimir();
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
             {
-                z1=ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y);
-                if(z1>z2)//<- Cambio
+                
+                for(int s=0; s<Zpartes.size(); s++)
+                    zAux+= abs( ambiente.obtRestriccciones()[k].evaluar(Zpartes[s],poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y) );
+                z1=zAux;
+                //cout<<"z1: "<<z1<<endl;
+                zAux=0;
+                if(z1<z2)//<- Cambio
                 {
                     z2=z1;     
                 }
             }
-            cout<<endl;
+            //cout<<endl;
         }   
-        cout<<endl;       
+        //cout<<endl;       
     }
     
     Individuo mejorI;
@@ -329,7 +331,11 @@ int main(){
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++){
                 //cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(poblacion[j][n]);
                 //cout << "\t1";
-                if(z2==ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y))
+                
+                for(int s=0; s<Zpartes.size(); s++)
+                   zAux+= abs( ambiente.obtRestriccciones()[k].evaluar(Zpartes[s],poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y) );
+
+                if(z2==zAux)
                 {
                     mejorI= poblacion[j][n];
                     //cout << "\nA ver: " << ( poblacion[j][n].obtFenotipo().x*RandomXORShft(rand()).randFloat() )/100 << endl;
@@ -337,6 +343,7 @@ int main(){
                     //cout<<endl;
                     break;
                 }
+                zAux=0;
             }
         }
     }
