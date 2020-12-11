@@ -239,7 +239,7 @@ void Restriccion::defDominio(){
                 //cout<<"eval Y "<<eval<<endl;
                 siX0= ladoDer/eval;
                 //if(siX0==INFINITY) siX0=0;
-                //cout<<"six=0, y= "<<siX0<<endl;
+                cout<<"six=0, y= "<<siX0<<endl;
             //}
             
         }

@@ -1,4 +1,4 @@
-#include "./MetodosCuantitativos/Ambiente.h"
+#include "Ambiente.h"
 using namespace std;
 
 //CLASE PRONCIPAL DE PRUEBA, NO ESTÁ EN REPOSITORIO
@@ -27,9 +27,9 @@ class Principal{
     public:
         void menu(){
             int opc;
-            cout << "Ingrese funcion Z: ";
-            getline(cin, Z);
-            fflush(stdin);
+            //cout << "Ingrese funcion Z: ";
+            //getline(cin, Z);
+            //fflush(stdin);
             cout << "Va a minimizar(0) o maximizar(1)? ";
             cin >> opc;
             opc==0 ? max=false : max=true;
@@ -101,16 +101,6 @@ int main(){
     principal.desplegarEncabezado();
     principal.menu();
     cout << endl;
-    Ambiente ambiente(
-        principal.Z, 
-        principal.max, 
-        principal.noNeg, 
-        principal.cero, 
-        principal.precision, 
-        principal.pob, 
-        principal.ind, 
-        principal.reem
-    );
 
     /*cout << "Cuantas restricciones debe cumplir? ";
     cin >> nrest;
@@ -157,6 +147,28 @@ int main(){
         }
     }
 
+    
+    //Formar cadena de Z lineal
+    stringstream FO;
+    FO << "(";
+    for(int i=0; i < puntos; i++)
+        FO << valores_x[i] << "*x+y-" << valores_y[i] << ")+(";
+    principal.Z= FO.str();
+    principal.Z[principal.Z.size()-1]='\0';
+    principal.Z[principal.Z.size()-2]='\0';
+
+    Ambiente ambiente(
+        principal.Z, 
+        principal.max, 
+        principal.noNeg, 
+        principal.cero, 
+        principal.precision, 
+        principal.pob, 
+        principal.ind, 
+        principal.reem
+    );
+
+    
     double mLin=0; //m de la función lineal
     double b=0, kGaus=0;
     //for(int j=0; j<valores_x.size(); j++ )
@@ -272,14 +284,20 @@ int main(){
     double z1;
     double z2;
     int pos[poblacion.size()];
+    //Separador de Z
+    vector<string> Zpartes= ambiente.obtRestriccciones()[0].separar(ambiente.getZ(), "+");
     for(int j=0; j<poblacion.size(); j++){
-        z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
+        z2=0;
+        for(int s=0; s<Zpartes.size(); s++)
+            z2+= abs( ambiente.obtRestriccciones()[0].evaluar(Zpartes[s],poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y) );
+
+        //z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
         for(int n=0; n<poblacion[j].size(); n++){
             cout << poblacion[j][n].imprimir();
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
             {
                 z1=ambiente.obtRestriccciones()[k].evaluar(ambiente.getZ(),poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y);
-                if(z1>z2)
+                if(z1>z2)//<- Cambio
                 {
                     z2=z1;     
                 }
@@ -312,7 +330,7 @@ int main(){
     cout <<"El mejor individuo \n"<< mejorI.imprimir()<<endl;
     //cout << "aj" << ajbjx[0] << endl;
     //cout << "bj" << ajbjx[1] << endl;
-    
+
     cout<<"ajbjx[0] "<<ajbjx[0]<<" ajbjx[1] "<<ajbjx[1]<<" numBits[0] "<<numBits[0]<<endl;
     cout<<"ajbjy[0] "<<ajbjy[0]<<" ajbjy[1] "<<ajbjy[1]<<" numBits[1] "<<numBits[1]<<endl;
 
