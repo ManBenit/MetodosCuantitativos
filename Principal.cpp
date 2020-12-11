@@ -1,35 +1,19 @@
 #include "Ambiente.h"
 using namespace std;
 
-//CLASE PRONCIPAL DE PRUEBA, NO ESTÁ EN REPOSITORIO
 class Principal{
-    //ATRIBUTOS/////////////////////
     public:
-        /*string Z= "0.2*x+0.5*y"; 
-        bool max=true, noNeg=true, cero=true, reem=false; 
-        int precision=0, pob=1, ind=10000;*/
-
-        //PRimer problema exmaen
-        //string Z= "11.5*x+4*y+3.09"; //Z normal
-        /*
-        string Z= "(11.5*x+4*y+3.09)*(0-1)"; //Z negativa
-        bool max=false, noNeg=false, cero=false, reem=true; 
-        int precision=3, pob=1, ind=1000;
-        */
-       //Para usar en el menú
-       string Z; //Z negativa
+       string Z; 
         bool max, noNeg, cero, reem; 
         int precision, pob, ind;
         
-    ////////////////////////////////
 
-    //MÉTODOS///////////////////////
+    /*
+        Menú para introducir la función objetivo y restricciones
+    */
     public:
         void menu(){
             int opc;
-            //cout << "Ingrese funcion Z: ";
-            //getline(cin, Z);
-            //fflush(stdin);
             cout << "Va a minimizar(0) o maximizar(1)? ";
             cin >> opc;
             opc==0 ? max=false : max=true;
@@ -46,9 +30,6 @@ class Principal{
             cin >> pob;
             cout << "Numero de individuos por poblacion: " ;
             cin >> ind;
-            //cout << "Algoritmo con reemplazo? (si=1, no=0) ";
-            //cin >> opc;
-            //opc==0 ? reem=false : reem=true;
         }
 
         void desplegarEncabezado(){
@@ -59,6 +40,9 @@ class Principal{
             cout << "3CM8" << endl << "08/12/2020" << endl;
         }
 
+        /*
+            Volver negativa una función objetivo
+        */
         void hacerZNeg(string* Z){
             if( (int)(*Z)[0]>=48 && (int)(*Z)[0]<=57 ){
                 stringstream aux;
@@ -75,63 +59,33 @@ class Principal{
                         (*Z)[i]='-';
             }
         }
-    ////////////////////////////////
 
 };
 
 int main(){
     Principal principal;
-    //string foZ= "0.2*x+0.5*y"; //Prueba de la tarea
-    //string foZ= "11.5*x+4*y+3.09"; //Examen
-    //principal.hacerZNeg(&foZ); //Decomente esta línea si quiere hacer Max(-Z) <-******************
-
-    //srand(rand(NULL));
     srand ((signed)time(NULL));
-    //Ambiente ambiente(foZ, true, true, true, 0, 3, 5, false);
-    //Ambiente ambiente(foZ, false, false, false, 0, 1, 1000, true); //Primer problema examen
-    //FO primer problema
-    //Ambiente ambiente("11.5*x+4*y+3.09", false, false, false, 0, 3, 5, true);
-    
     vector<vector<Individuo>> poblacion;
-    unsigned t0, t1; //Medición de tiempo de ejecución
+    /*
+        Variables para calcular tiempo de ejecución y generación de la población
+    */
+    unsigned t0, t1; 
     string restric; 
     int nrest, i=0;
     int contadorInd=0, contadorPob=0;
     double aj, bj;
+
+    /*
+        Desplegar menú para introducción de datos
+    */
     principal.desplegarEncabezado();
     principal.menu();
     cout << endl;
 
-    /*cout << "Cuantas restricciones debe cumplir? ";
-    cin >> nrest;
-    getline(cin, restric);
-    while(true){
-        cout << "r" << i+1 << ": ";
-        getline(cin, restric);
-        fflush(stdin);
-        ambiente.agregarRestriccion(restric);
-
-        i+=1;
-        if(i==nrest)
-           break;        
-    }*/
-
-    /*ambiente.agregarRestriccion("0.1*x+0.6*y <= 2000");
-    ambiente.agregarRestriccion("1*x+1*y <= 6000");
-    ambiente.agregarRestriccion("1*x+0*y <= 4000");
-    if(principal.noNeg){
-        ambiente.agregarRestriccion("1*x+0*y >= 0");
-        ambiente.agregarRestriccion("0*x+1*y >= 0");
-    }*/
-
     double sumaX=0;
     int puntos=0;
-    //double* valores_x;
-    //double* valores_y;
     cout<<"Introduzca la cantidad de puntos a evaluar: ";
     cin>> puntos;
-    //valores_x =  new double[puntos];
-    //valores_y =  new double[puntos];
 
     double valores_x[puntos];
     double valores_y[puntos];
@@ -148,7 +102,9 @@ int main(){
     }
 
     
-    //Formar cadena de Z lineal
+    /*
+        Transformación de la función objetivo en términos numéricos
+    */
     stringstream FO;
     FO << "(";
     for(int i=0; i < puntos; i++)
@@ -168,32 +124,30 @@ int main(){
         false
     );
 
-    
-    double mLin=0; //m de la función lineal
-    double b=0, kGaus=0;
-    //for(int j=0; j<valores_x.size(); j++ )
-      //  cout<<"Valores xj:"<<valores_x[j]<<endl;
-    //sigma_de_x
+    /*
+        Variables para el cálculo de m, b y k
+    */
+    double mLin=0; 
+    double b=0, kGaus=0;    
+    double mGaus=0; 
+
     for(int j=0; j<sizeof(valores_x)/sizeof(*valores_x); j++ )
         sumaX+=valores_x[j];
 
-    ////valor de m para la función gaussiana
-    double mGaus=0; //m de la función gaussiana
     for(int j=1;j<puntos;j++){
         if(valores_y[i-1]<valores_y[i])
             mGaus=valores_x[i];
     }
 
-    cout<<sumaX<<endl;
-
-
-
-    //Restricciones problema 1 Examen (restricciones de m y b)
+    /*
+        Restricciones de m
+    */
     ambiente.agregarRestriccion( "1*x+0*y >= -100" );
     ambiente.agregarRestriccion( "1*x+0*y <= 100" );
     
-    //ambiente.agregarRestriccion( "0*x+1*y >= -132.25");
-    //ambiente.agregarRestriccion( "0*x+1*y <=  132.25");
+    /*
+        Restricciones de b
+    */
     ambiente.agregarRestriccion( "0*x+1*y >= "+to_string((-1)*pow(sumaX, 2)) );
     cout<<"To string expre aj: "<<to_string((-1)*pow(sumaX, 2))<<endl;
     ambiente.agregarRestriccion( "0*x+1*y <= "+to_string(pow(sumaX, 2)) );
@@ -203,8 +157,11 @@ int main(){
         ambiente.agregarRestriccion("0*x+1*y >= 0");
     }
 
-    double* ajbjx= ambiente.calcAjBj('x'); //representando m
-    double* ajbjy= ambiente.calcAjBj('y'); //representando b
+    /*
+        Calculo de límites y bits
+    */
+    double* ajbjx= ambiente.calcAjBj('x'); 
+    double* ajbjy= ambiente.calcAjBj('y'); 
     
     int* numBits= ambiente.calcBitsXY();
     cout << "Bits de X: " << numBits[0] << endl;
@@ -213,38 +170,26 @@ int main(){
     
     bool cumple=false;
     
-    /*for(int j=0; j<principal.ind; j++){
-        Individuo indi(aux[0], aux[1]);
-
-        cout << indi.imprimir();
-        for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
-            cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(indi);
-        cout << endl;
-    }*/
-
     t0=clock();
-    //GENERAR POBLACIONES (comprobar restricciones de m y b)
+    /*
+        Generación de población
+    */
     while(poblacion.size()<principal.pob){
         vector<Individuo> indis;
 
-        //GENERAR INDIVIDUOS
-        while(true){ //Mientras no se cumplan las restricciones,
-            Individuo indi( numBits[0], numBits[1]); //genera otro,
-            for(int k=0; k<ambiente.obtRestriccciones().size(); k++){ //debe cumplir todas las restricciones,
+        /*
+            GENERAR INDIVIDUOS
+        */            
+        while(true){ 
+            Individuo indi( numBits[0], numBits[1]); 
+            for(int k=0; k<ambiente.obtRestriccciones().size(); k++){ 
                 cumple= ambiente.obtRestriccciones()[k].evaluar(indi);                
-                if(!cumple) //con una que no cumpla,
-                    break; //generamos otro.
+                if(!cumple) 
+                    break; 
             }
 
             if(cumple){
-                /*cout << indi.imprimir();
-                for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
-                    //cout << "\t1";
-                    cout << "\t" <<ambiente.obtRestriccciones()[k].evaluar(indi);
-                cout << endl;*/
                 indis.push_back(indi);
-                //cout << contadorInd << endl;
-                //cout<<"Fenotipos "<<indi.obtFenotipo().x<<" "<<indi.obtFenotipo().y<<endl;
                 contadorInd+=1;
             }
 
@@ -258,35 +203,15 @@ int main(){
         indis.clear();
     }
 
-
-    
-
-
-    //cout << poblacion.size() << endl ;
-    /*double z1;
-    double z2=0;
-    int pos[poblacion.size()];*/
-    /*for(int j=0; j<poblacion.size(); j++){
-        for(int n=0; n<poblacion[j].size(); n++){
-            cout << poblacion[j][n].imprimir();
-            for(int k=0; k<ambiente.obtRestriccciones().size(); k++){
-                cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(poblacion[j][n]);
-                
-            }
-                //cout << "\t1";
-            cout << endl;
-        }
-        cout << endl;
-    }*/
-
-
-    //MODO ORIGINAL 
+    /*
+        Obtención del mejor individuo y cálculo de m,b y k
+    */
     double z1;
     double z2;
     double zAux;
-    int pos[poblacion.size()];
-    //Separador de Z
+    int pos[poblacion.size()];    
     Restriccion rAux;
+
     vector<string> Zpartes=  rAux.separar(ambiente.getZ(), ")+(");
     Zpartes[0].replace(0, 1, "");
     Zpartes[Zpartes.size()-1].replace( Zpartes[Zpartes.size()-1].size()-1, Zpartes[Zpartes.size()-1].size(), "" );
@@ -294,53 +219,36 @@ int main(){
         cout << Zpartes[z] << endl;
 
     for(int j=0; j<poblacion.size(); j++){
-        //zAux=0;
         for(int s=0; s<Zpartes.size(); s++)
             zAux+= abs( ambiente.obtRestriccciones()[0].evaluar(Zpartes[s],poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y) );
-        
-        
         z2=zAux;
-        //cout<<"z2: "<<z2<<endl;
         zAux=0;
-        //z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
         for(int n=0; n<poblacion[j].size(); n++){
-            //cout << poblacion[j][n].imprimir();
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
-            {
-                
+            {                
                 for(int s=0; s<Zpartes.size(); s++)
                     zAux+= abs( ambiente.obtRestriccciones()[k].evaluar(Zpartes[s],poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y) );
                 z1=zAux;
-                //cout<<"z1: "<<z1<<endl;
                 zAux=0;
-                if(z1<z2)//<- Cambio
+                if(z1<z2)
                 {
                     z2=z1;     
                 }
             }
-            //cout<<endl;
-        }   
-        //cout<<endl;       
+        }          
     }
     
     Individuo mejorI;
-    //Imprimir Mejor Vector
+
     for(int j=0; j<poblacion.size(); j++){
         for(int n=0; n<poblacion[j].size(); n++){
-            //cout << poblacion[j][n].imprimir();
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++){
-                //cout << "\t" << ambiente.obtRestriccciones()[k].evaluar(poblacion[j][n]);
-                //cout << "\t1";
-                
                 for(int s=0; s<Zpartes.size(); s++)
                    zAux+= abs( ambiente.obtRestriccciones()[k].evaluar(Zpartes[s],poblacion[j][n].obtFenotipo().x,poblacion[j][n].obtFenotipo().y) );
 
                 if(z2==zAux)
                 {
                     mejorI= poblacion[j][n];
-                    //cout << "\nA ver: " << ( poblacion[j][n].obtFenotipo().x*RandomXORShft(rand()).randFloat() )/100 << endl;
-                    //cout << "A ver2: " << ( poblacion[j][n].obtFenotipo().y*RandomXORShft(rand()).randFloat() )/100 << endl;
-                    //cout<<endl;
                     break;
                 }
                 zAux=0;
@@ -349,9 +257,6 @@ int main(){
     }
 
     cout <<"El mejor individuo \n"<< mejorI.imprimir()<<endl;
-    //cout << "aj" << ajbjx[0] << endl;
-    //cout << "bj" << ajbjx[1] << endl;
-
     cout<<"ajbjx[0] "<<ajbjx[0]<<" ajbjx[1] "<<ajbjx[1]<<" numBits[0] "<<numBits[0]<<endl;
     cout<<"ajbjy[0] "<<ajbjy[0]<<" ajbjy[1] "<<ajbjy[1]<<" numBits[1] "<<numBits[1]<<endl;
 
@@ -361,23 +266,15 @@ int main(){
     mLin= ajbjx[0]+ mejorI.obtFenotipo().x * ( (ajbjx[1]-ajbjx[0]) / (pow(2, numBits[0])-1) );
     b= ajbjy[0]+ mejorI.obtFenotipo().y * ( (ajbjy[1]-ajbjy[0]) / (pow(2, numBits[1])-1) );
 
-
     cout << "kGaus: " << kGaus << endl;
     cout << "mLin: " << mLin << endl;
     cout << "b: " << b << endl;
     cout << "mGaus: " << mGaus << endl;
 
-
-    
     t1 = clock();
     
-    //cout<< "La funcion Gaussiana es : y=e^(-" << ValorDeiteracion << "(-"<< m << "+x)^2)";
     double tiempo = (double(t1-t0)/CLOCKS_PER_SEC);
     cout << "Tiempo de procesamiento: " << tiempo << "s" << endl;
-
-
-    
-
 
     return 0;
 }

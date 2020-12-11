@@ -88,10 +88,6 @@ double Ambiente::generarAleatorio(){
 
 double Ambiente::calcMin(vector<double> lista){
     double minimo= lista[0];
-    //for(int i=1; i<sizeof(lista)/sizeof(double); i++)
-    //for(int i=1; i<lista.size(); i++)
-      //  cout<<"lista min: "<<lista[i]<<endl;
-
      for(int i=1; i<lista.size(); i++)
         if(minimo>lista[i])
             minimo=lista[i];
@@ -101,9 +97,6 @@ double Ambiente::calcMin(vector<double> lista){
 
 double Ambiente::calcMax(vector<double> lista){
     double maximo= lista[0];
-    //for(int i=1; i<sizeof(lista)/sizeof(double); i++)
-    //for(int i=1; i<lista.size(); i++)
-        //cout<<"lista max: "<<lista[i]<<endl;
      for(int i=1; i<lista.size(); i++)
         if(maximo<lista[i])
             maximo=lista[i];
