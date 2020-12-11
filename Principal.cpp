@@ -290,6 +290,16 @@ int main(){
     //Zpartes[Zpartes.size()-1][ Zpartes[Zpartes.size()-1].size()-1 ]='\0';
     //for(int z=0; z<Zpartes.size(); z++)
         //cout << Zpartes[z] << endl;
+
+    /*
+    cout << laZ << endl;
+    vector<string> Zpartes= separar(laZ, ")+(");
+    Zpartes[0].replace(0, 1, "");
+    Zpartes[Zpartes.size()-1].replace( Zpartes[Zpartes.size()-1].size()-1, Zpartes[Zpartes.size()-1].size(), "" );
+    for(int z=0; z<Zpartes.size(); z++)
+        cout << Zpartes[z] << endl;
+    */
+
     for(int j=0; j<poblacion.size(); j++){
         //z2=0;
         //for(int s=0; s<Zpartes.size(); s++)
