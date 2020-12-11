@@ -285,13 +285,17 @@ int main(){
     double z2;
     int pos[poblacion.size()];
     //Separador de Z
-    vector<string> Zpartes= ambiente.obtRestriccciones()[0].separar(ambiente.getZ(), "+");
+    //vector<string> Zpartes= ambiente.obtRestriccciones()[0].separar(ambiente.getZ(), ")+(");
+    //Zpartes[0][0]='\0';
+    //Zpartes[Zpartes.size()-1][ Zpartes[Zpartes.size()-1].size()-1 ]='\0';
+    //for(int z=0; z<Zpartes.size(); z++)
+        //cout << Zpartes[z] << endl;
     for(int j=0; j<poblacion.size(); j++){
-        z2=0;
-        for(int s=0; s<Zpartes.size(); s++)
-            z2+= abs( ambiente.obtRestriccciones()[0].evaluar(Zpartes[s],poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y) );
+        //z2=0;
+        //for(int s=0; s<Zpartes.size(); s++)
+            //z2+= abs( ambiente.obtRestriccciones()[0].evaluar(Zpartes[s],poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y) );
 
-        //z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
+        z2=ambiente.obtRestriccciones()[0].evaluar(ambiente.getZ(),poblacion[j][0].obtFenotipo().x,poblacion[j][0].obtFenotipo().y);
         for(int n=0; n<poblacion[j].size(); n++){
             cout << poblacion[j][n].imprimir();
             for(int k=0; k<ambiente.obtRestriccciones().size(); k++)
