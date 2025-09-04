@@ -1,3 +1,3 @@
-# Cuantitative methods
+# Quantitative methods
 
 Genetic algorithm using C++
